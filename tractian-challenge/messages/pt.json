@@ -1,0 +1,27 @@
+{
+  "common": {
+    "learnMore": "Saiba Mais",
+    "getStarted": "Começar",
+    "contactUs": "Fale Conosco"
+  },
+  "header": {
+    "home": "Início",
+    "whoWeServe": "Quem Atendemos",
+    "plantManager": "Gerente de Planta"
+  },
+  "footer": {
+    "copyright": "© {year} Tractian. Todos os direitos reservados."
+  },
+  "plantManager": {
+    "heroTitle": "A plataforma feita para Gerentes de Planta",
+    "heroSubtitle": "Visibilidade total das suas operações em tempo real.",
+    "whyChooseTitle": "Por que escolher a Tractian?",
+    "reportsTitle": "Relatórios e Insights",
+    "threePillarsTitle": "Três Pilares",
+    "testimonialsTitle": "Depoimentos",
+    "processStepsTitle": "Como funciona",
+    "ctaTitle": "Pronto para começar?",
+    "ctaButton": "Solicitar uma Demo",
+    "faqTitle": "Perguntas Frequentes"
+  }
+}

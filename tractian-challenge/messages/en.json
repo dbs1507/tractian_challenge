@@ -1,0 +1,27 @@
+{
+  "common": {
+    "learnMore": "Learn More",
+    "getStarted": "Get Started",
+    "contactUs": "Contact Us"
+  },
+  "header": {
+    "home": "Home",
+    "whoWeServe": "Who We Serve",
+    "plantManager": "Plant Manager"
+  },
+  "footer": {
+    "copyright": "© {year} Tractian. All rights reserved."
+  },
+  "plantManager": {
+    "heroTitle": "The platform built for Plant Managers",
+    "heroSubtitle": "Full visibility of your operations in real time.",
+    "whyChooseTitle": "Why choose Tractian?",
+    "reportsTitle": "Reports & Insights",
+    "threePillarsTitle": "Three Pillars",
+    "testimonialsTitle": "Testimonials",
+    "processStepsTitle": "How it works",
+    "ctaTitle": "Ready to get started?",
+    "ctaButton": "Request a Demo",
+    "faqTitle": "Frequently Asked Questions"
+  }
+}
