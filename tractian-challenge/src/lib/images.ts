@@ -17,11 +17,17 @@ export const heroImages = {
 // ---- Why Choose (feature image) ----
 export const whyChooseImages = {
   proveRoi: `${IMGIX}/website/pages/who-we-serve/plant-manager/en/prove-the-roi.png?${IX}&w=3840`,
+  getAheadOfDowntime: `${IMGIX}/website/pages/who-we-serve/plant-manager/en/get-ahead.png?${IX}&w=3840`,
+  runALeanerMoreEffectiveTeam: `${IMGIX}/website/pages/who-we-serve/plant-manager/en/run-a-leaner.png?${IX}&w=3840`,
+  keepAuditsSimpleComplianceCovered: `${IMGIX}/website/pages/who-we-serve/plant-manager/en/keeps-audit-simple.png?${IX}&w=3840`,
 };
 
 // ---- Reports / Tabs ----
 export const reportsImages = {
   reportsForScalability: `${IMGIX}/website/pages/who-we-serve/plant-manager/en/reports-for-scalability.png?${IX}&w=3840`,
+  operationalOversight: `${IMGIX}/website/pages/who-we-serve/plant-manager/en/operational-oversight.png?${IX}&w=3840`,
+  multisiteVisibility: `${IMGIX}/website/pages/who-we-serve/plant-manager/en/multisite-visibility.png?${IX}&w=3840`,
+  noLaborGaps: `${IMGIX}/website/pages/who-we-serve/plant-manager/en/no-labor-gaps.png?${IX}&w=3840`,
 };
 
 // ---- Testimonials (avatars) ----

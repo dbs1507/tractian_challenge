@@ -8,19 +8,60 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-inter);
+  --font-heading: var(--font-inter-tight);
+
+  /* ── Typography Scale (from Tractian design system) ── */
+  /* Titles */
+  --font-size-title-xl: 32px;
+  --font-size-title-xl--line-height: 40px;
+  --font-size-title-lg: 24px;
+  --font-size-title-lg--line-height: 32px;
+  --font-size-title-md: 1.25rem;
+  --font-size-title-md--line-height: 1.75rem;
+  --font-size-title-sm: 20px;
+  --font-size-title-sm--line-height: 28px;
+  --font-size-title-xs: 20px;
+  --font-size-title-xs--line-height: 24px;
+
+  /* Body */
+  --font-size-body-xl: 16px;
+  --font-size-body-xl--line-height: 24px;
+  --font-size-body-lg: 16px;
+  --font-size-body-lg--line-height: 24px;
+  --font-size-body-md: 14px;
+  --font-size-body-md--line-height: 22px;
+  --font-size-body-sm: 14px;
+  --font-size-body-sm--line-height: 22px;
+
+  /* Tag */
+  --font-size-tag: 12px;
+  --font-size-tag--line-height: 20px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+/* Dark mode disabled — site is always light */
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* ── Infinite scroll animation for logos carousel ── */
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-100% / 3));
+  }
+}
+
+.animate-scroll {
+  animation: scroll 60s linear infinite;
+  width: max-content;
+}
+
+.animate-scroll:hover {
+  animation-play-state: paused;
 }
