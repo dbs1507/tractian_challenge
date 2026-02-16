@@ -1,18 +1,41 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Accordion, type AccordionItem } from "@/components/ui/Accordion";
 
-const FAQ_COUNT = 17;
+const FAQ_COUNT = 18;
+
+const FAQ1_LINK_PATH: Record<string, string> = {
+  en: "/en/solutions/condition-monitoring/smart-trac",
+  es: "/es/soluciones/monitoreo-condicion/smart-trac",
+  pt: "/pt/solucoes/monitoramento-de-condicao/smart-trac",
+};
 
 export function FAQ() {
+  const locale = useLocale();
   const t = useTranslations("plantManager");
+  const faq1Href = FAQ1_LINK_PATH[locale] ?? `/${locale}/soluciones/monitoreo-condicion/smart-trac`;
 
-  const items: AccordionItem[] = Array.from({ length: FAQ_COUNT }, (_, i) => ({
-    id: `faq-${i + 1}`,
-    title: t(`faq${i + 1}Q`),
-    content: t(`faq${i + 1}A`),
-  }));
+  const items: AccordionItem[] = Array.from({ length: FAQ_COUNT }, (_, i) => {
+    const num = i + 1;
+    const title = t(`faq${num}Q`);
+    const content =
+      num === 1
+        ? t.rich("faq1A", {
+            link: (chunks) => (
+              <a
+                href={faq1Href}
+                className="underline underline-offset-2 text-slate-500"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {chunks}
+              </a>
+            ),
+          })
+        : t(`faq${num}A`);
+    return { id: `faq-${num}`, title, content };
+  });
 
   return (
     <section className="w-full bg-slate-100 py-14 lg:py-[69px]">

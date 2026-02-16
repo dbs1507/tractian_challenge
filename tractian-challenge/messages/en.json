@@ -1,4 +1,8 @@
 {
+  "meta": {
+    "title": "For the Plant Manager Who Wants to Lead with Confidence",
+    "description": "Make smarter decisions, faster. Tractian gives you clarity, control, and confidence - so you can lead the plant and prove the ROI."
+  },
   "common": {
     "learnMore": "Learn More",
     "getStarted": "Get Started",
@@ -214,9 +218,9 @@
     "faqTitle": "Frequently Asked Questions",
     "faqTag": "FAQ",
     "faq1Q": "How can I reduce unplanned downtime at my plant?",
-    "faq1A": "Tractian condition monitoring detects early-stage failures and sends alerts before breakdowns happen - giving you time to act. Combined with our CMMS, those alerts automatically generate work orders, assign tasks, and track progress, so nothing slips through the cracks. You prevent failures and stay organized while doing it.",
+    "faq1A": "Tractian <link>condition monitoring</link> detects early-stage failures and sends alerts before breakdowns happen - giving you time to act. Combined with our CMMS, those alerts automatically generate work orders, assign tasks, and track progress, so nothing slips through the cracks. You prevent failures and stay organized while doing it.",
     "faq2Q": "Can I prove ROI using Tractian?",
-    "faq2A": "Tractian is built for industrial assets - from motors and pumps to compressors, gearboxes, and more. If it moves, vibrates, or heats up, we can help you monitor it.",
+    "faq2A": "Yes, easily. Tractian gives you the data you need to show clear ROI through reduced unplanned downtime, lower maintenance costs (by avoiding costly emergency repairs), and longer asset life. Our insights help you quantify financial impact and optimize operational efficiency.",
     "faq3Q": "How hard is it to install and start using Tractian?",
     "faq3A": "It's plug-and-play. Vibration sensors are installed in minutes, and our platform is intuitive - no complex onboarding or training required. Most teams are up and running within a day.",
     "faq4Q": "Can Tractian really help if my team is understaffed?",
@@ -238,14 +242,16 @@
     "faq12Q": "Does Tractian require Wi-Fi or internal networks?",
     "faq12A": "Tractian sensors use independent connectivity, so there's no need for internal network access or complex IT setup. Your data syncs automatically to our secure cloud platform. You can access the software from any desktop with internet access, or use the mobile app - even offline - right from the plant floor.",
     "faq13Q": "Can Tractian help with standardizing processes across teams?",
-    "faq13A": "Tractian offers leadership-ready insights, including maintenance costs, backlog, execution rates, asset health, and labor productivity. Reports can be customized by area, timeframe, or asset type - and exported for planning or presentations.",
+    "faq13A": "Yes. Tractian ensures repeatability with digital SOPs, safety tracking, and centralized documentation. It's easy to see what was done, when, and by whom across all shifts and teams.",
     "faq14Q": "Can I migrate my existing maintenance data?",
     "faq14A": "Yes. We provide easy data migration tools and hands-on support to bring in your historical records from Excel, ERP, CMMS, or other systems. You won't lose your legacy data.",
     "faq15Q": "Does Tractian integrate with my existing tools?",
     "faq15A": "Yes. We offer integrations with ERPs and support custom workflows through our open API. We also provide free migration from your current CMMS, along with easy-to-use tools to import data from Excel or other file formats.",
     "faq16Q": "Is Tractian secure?",
-    "faq16A": "Yes. Tractian is compliant with key security and quality standards, including SOC 2, ISO 27001, and ISO 9001. Our platform supports Single Sign-On (SSO), multi-factor authentication (MFA), and granular role-based access controls to ensure data is protected and only accessible to authorized users. All data is encrypted in transit and at rest.",
+    "faq16A": "Yes. Tractian meets key security and quality standards including SOC 2, ISO 27001, and ISO 9001. Our platform supports Single Sign-On (SSO), multi-factor authentication (MFA), and role-based access controls to protect your data and ensure only authorized users can access it. All data is encrypted in transit and at rest. Visit our Trust Center for more details.",
     "faq17Q": "How much does Tractian cost?",
-    "faq17A": "For our Bundled plan, combining Condition Monitoring Sensors and Maintenance Management Software, pricing depends on the size and complexity of your operation. We'll work with you to build a custom quote based on your needs, with no hidden fees. Everything you need is included in one simple, integrated package."
+    "faq17A": "With our Bundled plan, which combines condition monitoring sensors and maintenance management software, pricing depends on the size and complexity of your operation. We work with you to build a custom proposal based on your needs, with no hidden costs. Everything you need is included in one integrated package.",
+    "faq18Q": "Is Tractian only for Plant Managers?",
+    "faq18A": "No. Tractian is designed for anyone responsible for keeping the plant running. That includes maintenance technicians, plant engineers, reliability engineers, maintenance supervisors, and maintenance managers, among others."
   }
 }

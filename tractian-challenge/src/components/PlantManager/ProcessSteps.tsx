@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 const STEPS = [
   { num: 1, titleKey: "step1Title" as const, descKey: "step1Desc" as const },
@@ -10,6 +10,7 @@ const STEPS = [
 ] as const;
 
 export function ProcessSteps() {
+  const locale = useLocale();
   const t = useTranslations("plantManager");
 
   return (
@@ -17,7 +18,14 @@ export function ProcessSteps() {
       <div className="mx-auto flex w-full max-w-2xl flex-col items-start gap-8 lg:max-w-6xl lg:items-center lg:gap-12">
         {/* Title */}
         <h2 className="text-left font-heading text-[1.25rem] font-bold leading-[1.75rem] text-slate-700 lg:mb-4 lg:text-center lg:text-[32px] lg:leading-[40px]">
-          {t("processStepsTitle")}
+          {locale === "es" ? (
+            <>
+              <span className="block">{t("processStepsTitle1")}</span>
+              <span className="block">{t("processStepsTitle2")}</span>
+            </>
+          ) : (
+            t("processStepsTitle")
+          )}
         </h2>
 
         {/* Steps */}

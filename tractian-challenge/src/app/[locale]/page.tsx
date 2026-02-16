@@ -16,7 +16,7 @@ function HomeContent() {
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center gap-4 p-8">
-      <h1 className="text-2xl font-semibold">{t("home")}</h1>
+      <h1 className="text-2xl font-semibold">home</h1>
       <Link
         href="/who-we-serve/plant-manager"
         className="text-blue-600 underline hover:no-underline"

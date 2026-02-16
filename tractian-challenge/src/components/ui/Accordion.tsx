@@ -1,11 +1,12 @@
 "use client";
 
+import type { ReactNode } from "react";
 import { useState, useCallback, useRef, useEffect } from "react";
 
 export type AccordionItem = {
   id: string;
   title: string;
-  content: string;
+  content: string | ReactNode;
 };
 
 type AccordionProps = {
@@ -36,7 +37,7 @@ function ChevronRight({ isOpen }: { isOpen: boolean }) {
 
 export function Accordion({ items }: AccordionProps) {
   const [openId, setOpenId] = useState<string | null>(null);
-  const contentRefs = useRef<Record<string, HTMLParagraphElement | null>>({});
+  const contentRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const [heights, setHeights] = useState<Record<string, number>>({});
 
   const toggle = useCallback((id: string) => {
@@ -81,14 +82,14 @@ export function Accordion({ items }: AccordionProps) {
                 transition: "max-height 0.2s ease-in-out",
               }}
             >
-              <p
+              <div
                 ref={(el) => {
                   contentRefs.current[item.id] = el;
                 }}
                 className="pt-3 text-left text-body-md text-slate-500"
               >
                 {item.content}
-              </p>
+              </div>
             </div>
           </button>
         );

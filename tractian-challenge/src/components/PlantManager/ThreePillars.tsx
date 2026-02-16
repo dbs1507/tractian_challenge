@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 /* ─── Pillar SVG Icons (inline for currentColor/fill control) ─── */
 
@@ -94,13 +94,21 @@ const PILLARS = [
 /* ─── Component ─── */
 
 export function ThreePillars() {
+  const locale = useLocale();
   const t = useTranslations("plantManager");
 
   return (
     <section className="w-full bg-slate-100 px-4 py-12 lg:py-16">
       <div className="mx-auto flex w-full max-w-2xl flex-col items-center gap-8 lg:max-w-6xl lg:gap-12">
         <h2 className="font-heading text-[1.25rem] font-bold leading-[1.75rem] text-slate-700 lg:text-center lg:text-[32px] lg:leading-[40px]">
-          {t("threePillarsTitle")}
+          {locale === "es" ? (
+            <>
+              <span className="block">{t("threePillarsTitle1")}</span>
+              <span className="block">{t("threePillarsTitle2")}</span>
+            </>
+          ) : (
+            t("threePillarsTitle")
+          )}
         </h2>
 
         <div className="flex h-auto w-full flex-col items-stretch gap-8 lg:flex-row lg:justify-between lg:gap-16">

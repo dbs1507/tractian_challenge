@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Inter_Tight } from "next/font/google";
-import { getLocale } from "next-intl/server";
+import { getLocale, getMessages } from "next-intl/server";
 import "./globals.css";
 
 const inter = Inter({
@@ -13,10 +13,15 @@ const interTight = Inter_Tight({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Tractian Challenge",
-  description: "Tractian Frontend Challenge",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const messages = (await getMessages()) as {
+    meta?: { title?: string; description?: string };
+  };
+  return {
+    title: messages.meta?.title ?? "Tractian Challenge",
+    description: messages.meta?.description ?? "Tractian Frontend Challenge",
+  };
+}
 
 export default async function RootLayout({
   children,

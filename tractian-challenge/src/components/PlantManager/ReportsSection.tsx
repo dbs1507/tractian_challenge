@@ -10,21 +10,25 @@ const TABS = [
     id: "reportsForScalability",
     titleKey: "reportsForScalability" as const,
     imageKey: "reportsForScalability" as const,
+    bulletCount: 4,
   },
   {
     id: "operationalOversight",
     titleKey: "operationalOversight" as const,
     imageKey: "operationalOversight" as const,
+    bulletCount: 5,
   },
   {
     id: "multisiteVisibility",
     titleKey: "multisiteVisibility" as const,
     imageKey: "multisiteVisibility" as const,
+    bulletCount: 4,
   },
   {
     id: "noLaborGaps",
     titleKey: "noLaborGaps" as const,
     imageKey: "noLaborGaps" as const,
+    bulletCount: 4,
   },
 ] as const;
 
@@ -94,12 +98,10 @@ export function ReportsSection() {
     return () => window.removeEventListener("resize", updateIndicator);
   }, [updateIndicator]);
 
-  const bulletKeys = [
-    `${activeTab.titleKey}Bullet1`,
-    `${activeTab.titleKey}Bullet2`,
-    `${activeTab.titleKey}Bullet3`,
-    `${activeTab.titleKey}Bullet4`,
-  ] as const;
+  const bulletKeys = Array.from(
+    { length: activeTab.bulletCount },
+    (_, i) => `${activeTab.titleKey}Bullet${i + 1}` as const
+  );
 
   return (
     <section
@@ -169,18 +171,23 @@ export function ReportsSection() {
                     <h3 className="font-heading font-bold text-[1.25rem] leading-[1.5rem] text-slate-700 lg:text-[1.25rem] lg:leading-[1.75rem]">
                       {t(`${activeTab.titleKey}Title`)}
                     </h3>
-                    <p className="text-body-md text-slate-500">
-                      {t(`${activeTab.titleKey}Desc`)}
-                    </p>
+                    {t(`${activeTab.titleKey}Desc`) ? (
+                      <p className="text-body-md text-slate-500">
+                        {t(`${activeTab.titleKey}Desc`)}
+                      </p>
+                    ) : null}
                     <ul className="ml-4 flex w-full list-disc flex-col gap-1">
-                      {bulletKeys.map((key) => (
-                        <li
-                          key={key}
-                          className="text-body-md text-slate-500"
-                        >
-                          {t(key)}
-                        </li>
-                      ))}
+                      {bulletKeys.map((key) => {
+                        const text = t(key);
+                        return text ? (
+                          <li
+                            key={key}
+                            className="text-body-md text-slate-500"
+                          >
+                            {text}
+                          </li>
+                        ) : null;
+                      })}
                     </ul>
                   </article>
                 </div>
