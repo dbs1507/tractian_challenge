@@ -113,7 +113,7 @@ function TestimonialCard({
       </div>
 
       {/* Quote text */}
-      <p className="h-full font-heading font-medium text-[15px] italic leading-[1.6] text-slate-500 lg:text-[14.9px] lg:leading-[1.6]">
+      <p className="h-full text-slate-500 text-quote italic text-[14px] leading-[1.6]">
         {t(quoteKey)}
       </p>
 

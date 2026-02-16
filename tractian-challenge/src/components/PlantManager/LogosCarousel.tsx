@@ -27,7 +27,7 @@ export function LogosCarousel() {
     <section className="w-full px-0 pt-4 lg:px-4 lg:pb-16">
       <div className="mx-auto flex w-full max-w-full flex-col items-center gap-8 lg:gap-12">
         {/* Subtitle */}
-        <h2 className="mx-auto max-w-2xl px-4 text-center text-slate-500 text-body-md lg:px-0 font-medium">
+        <h2 className="mx-auto max-w-2xl px-4 text-center text-slate-500 text-body-md lg:px-0 font-normal">
           {t("logosSubtitle")}
         </h2>
 

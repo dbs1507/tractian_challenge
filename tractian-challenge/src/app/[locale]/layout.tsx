@@ -1,6 +1,7 @@
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, setRequestLocale } from "next-intl/server";
 import { routing } from "@/i18n/routing";
+import { DemoModalProvider } from "@/contexts/DemoModalContext";
 import { notFound } from "next/navigation";
 
 type Props = {
@@ -25,7 +26,7 @@ export default async function LocaleLayout({ children, params }: Props) {
 
   return (
     <NextIntlClientProvider messages={messages}>
-      {children}
+      <DemoModalProvider>{children}</DemoModalProvider>
     </NextIntlClientProvider>
   );
 }

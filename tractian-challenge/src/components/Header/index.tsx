@@ -1,12 +1,15 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/routing";
 import { icons } from "@/lib/images";
 import { MobileMenu } from "./MobileMenu";
 import { LanguageSwitcher } from "./LanguageSwitcher";
+import { DropdownContent, type DropdownId } from "./dropdowns";
+import { useDemoModal } from "@/contexts/DemoModalContext";
 
 function ChevronDownIcon({ className }: { className?: string }) {
   return (
@@ -26,27 +29,49 @@ function ChevronDownIcon({ className }: { className?: string }) {
   );
 }
 
-type DropdownId = "solutions" | "whoWeServe" | "resources" | "company" | "pricing" | null;
-
 export function Header() {
   const t = useTranslations("header");
   const tc = useTranslations("common");
   const [openDropdown, setOpenDropdown] = useState<DropdownId>(null);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const [isDropdownFadedIn, setIsDropdownFadedIn] = useState(false);
+  const { openDemoModal } = useDemoModal();
+  const navRef = useRef<HTMLElement>(null);
 
-  function handleMouseEnter(id: DropdownId) {
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    setOpenDropdown(id);
-  }
+  // Fade-in only on open (no transition on close)
+  useEffect(() => {
+    if (openDropdown) {
+      setIsDropdownFadedIn(false);
+      const raf = requestAnimationFrame(() => {
+        requestAnimationFrame(() => setIsDropdownFadedIn(true));
+      });
+      return () => cancelAnimationFrame(raf);
+    } else {
+      setIsDropdownFadedIn(false);
+    }
+  }, [openDropdown]);
 
-  function handleMouseLeave() {
-    timeoutRef.current = setTimeout(() => setOpenDropdown(null), 150);
-  }
+  const toggleDropdown = useCallback((id: NonNullable<DropdownId>) => {
+    setOpenDropdown((prev) => (prev === id ? null : id));
+  }, []);
+
+  const closeDropdown = useCallback(() => setOpenDropdown(null), []);
 
   useEffect(() => {
-    return () => {
-      if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    };
+    function handleClickOutside(e: MouseEvent) {
+      if (navRef.current && !navRef.current.contains(e.target as Node)) {
+        setOpenDropdown(null);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  useEffect(() => {
+    function handleEscape(e: KeyboardEvent) {
+      if (e.key === "Escape") setOpenDropdown(null);
+    }
+    document.addEventListener("keydown", handleEscape);
+    return () => document.removeEventListener("keydown", handleEscape);
   }, []);
 
   const navItems: { id: NonNullable<DropdownId>; label: string }[] = [
@@ -58,49 +83,59 @@ export function Header() {
   ];
 
   return (
-    <nav className="sticky top-0 z-40 flex w-full flex-col items-center justify-center border-b border-slate-200 bg-slate-100 transition-colors">
+    <nav
+      ref={navRef}
+      className="sticky top-0 z-40 flex w-full flex-col items-center justify-center border-b border-slate-200 bg-slate-100 transition-colors"
+    >
       <div className="flex w-full max-w-screen-2xl items-center justify-between px-4 py-2 lg:px-8 lg:py-0">
         <div className="hidden h-full w-full items-center justify-between lg:flex">
           <section className="flex items-center gap-x-4">
-            <Link href="/" aria-label="Tractian Home">
-              <Image
-                src={icons.tractianLogo}
-                alt="Tractian"
-                width={128}
-                height={18}
-                className="w-32"
-                priority
-              />
-            </Link>
+            <figure className="fill-blue-600">
+              <Link href="/" aria-label="Tractian Logo">
+                <Image
+                  src={icons.tractianLogo}
+                  alt="Tractian"
+                  width={128}
+                  height={18}
+                  className="w-32"
+                  priority
+                />
+              </Link>
+            </figure>
 
             <div className="flex h-[72px] items-center">
-              {navItems.map((item) => (
-                <section
-                  key={item.id}
-                  className="relative flex h-full items-center pl-4 xl:pl-8"
-                  onMouseEnter={() => handleMouseEnter(item.id)}
-                  onMouseLeave={handleMouseLeave}
-                >
-                  <div className="group flex cursor-pointer items-center gap-x-2">
-                    <p className="select-none font-semibold text-slate-500 hover:text-blue-600 group-hover:text-blue-600 ">
-                      {item.label}
-                    </p>
-                    <ChevronDownIcon
-                      className={`pointer-events-none h-3 w-3 shrink-0 text-slate-500 transition-transform group-hover:text-blue-600 ${
-                        openDropdown === item.id ? "rotate-180" : ""
-                      }`}
-                    />
-                  </div>
-
-                  {openDropdown === item.id && (
-                    <DropdownPanel
-                      id={item.id}
-                      onMouseEnter={() => handleMouseEnter(item.id)}
-                      onMouseLeave={handleMouseLeave}
-                    />
-                  )}
-                </section>
-              ))}
+              {navItems.map((item) => {
+                const isActive = openDropdown === item.id;
+                return (
+                  <section
+                    key={item.id}
+                    className="flex h-full items-center pl-4 xl:pl-8"
+                  >
+                    <button
+                      type="button"
+                      onClick={() => toggleDropdown(item.id)}
+                      className="group flex cursor-pointer items-center gap-x-2"
+                    >
+                      <p
+                        className={`select-none font-medium transition-colors ${
+                          isActive
+                            ? "text-blue-600"
+                            : "text-slate-500 group-hover:text-blue-600"
+                        }`}
+                      >
+                        {item.label}
+                      </p>
+                      <ChevronDownIcon
+                        className={`pointer-events-none h-3 w-3 shrink-0 transition-transform ${
+                          isActive
+                            ? "rotate-180 text-blue-600"
+                            : "text-slate-500 group-hover:text-blue-600"
+                        }`}
+                      />
+                    </button>
+                  </section>
+                );
+              })}
             </div>
           </section>
 
@@ -110,13 +145,14 @@ export function Header() {
               href="https://app.tractian.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden font-semibold text-slate-500 transition-colors hover:text-blue-600 xl:block"
+              className="hidden font-medium text-slate-500 text-body-md transition-colors hover:text-blue-600 xl:block"
             >
-              {tc("login")}
+              Login
             </a>
             <button
               type="button"
-              className="max-w-fit rounded-sm px-4 py-2 text-md font-medium text-blue-600 outline outline-1 outline-blue-600 transition hover:outline-2 active:outline-4"
+              onClick={openDemoModal}
+              className="max-w-fit rounded-sm px-4 py-2 text-body-md font-normal text-blue-600 outline outline-1 outline-blue-600 transition hover:outline-2 active:outline-4"
             >
               {tc("getDemo")}
             </button>
@@ -134,120 +170,38 @@ export function Header() {
               priority
             />
           </Link>
-          <MobileMenu />
+          <MobileMenu onOpenDemo={openDemoModal} />
         </div>
       </div>
+
+      {openDropdown &&
+        typeof document !== "undefined" &&
+        createPortal(
+          <div
+            className={`fixed inset-0 z-30 hidden bg-black/60 backdrop-blur-[1px] transition-opacity duration-300 ease-in-out lg:block ${
+              isDropdownFadedIn ? "opacity-100" : "opacity-0"
+            }`}
+            onClick={closeDropdown}
+            onKeyDown={(e) => e.key === "Escape" && closeDropdown()}
+            aria-hidden="true"
+          />,
+          document.body
+        )}
+      {openDropdown && (
+        <div
+          className={`absolute inset-x-0 top-full z-50 hidden transition-opacity duration-300 ease-in-out lg:block ${
+            isDropdownFadedIn ? "opacity-100" : "opacity-0"
+          }`}
+        >
+          <div
+            className={`relative z-30 mx-auto w-full px-8 pb-12 pt-8 bg-slate-50 shadow-lg ${
+              openDropdown === "resources" || openDropdown === "company" || openDropdown === "pricing" ? "max-w-[970px]" : "max-w-7xl"
+            }`}
+          >
+            <DropdownContent id={openDropdown} onClose={closeDropdown} />
+          </div>
+        </div>
+      )}
     </nav>
-  );
-}
-
-/* ── Dropdown Panels ── */
-
-function DropdownPanel({
-  id,
-  onMouseEnter,
-  onMouseLeave,
-}: {
-  id: NonNullable<DropdownId>;
-  onMouseEnter: () => void;
-  onMouseLeave: () => void;
-}) {
-  const t = useTranslations("header");
-
-  const content: Record<NonNullable<DropdownId>, React.ReactNode> = {
-    solutions: (
-      <div className="flex gap-8">
-        <DropdownColumn title={t("conditionMonitoring")} links={[
-          { label: "Vibration Sensor & Analysis", href: "#" },
-          { label: "AI Failure Detection", href: "#" },
-          { label: "Reliability & Root Cause Analysis", href: "#" },
-        ]} />
-        <DropdownColumn title={t("cmms")} links={[
-          { label: "Work Order Management", href: "#" },
-          { label: "Preventive Maintenance", href: "#" },
-          { label: "Parts Inventory", href: "#" },
-        ]} />
-        <DropdownColumn title={t("oee")} links={[
-          { label: "AI Production Tracking", href: "#" },
-          { label: "Custom Dashboards", href: "#" },
-          { label: "Utility Analytics", href: "#" },
-        ]} />
-      </div>
-    ),
-    whoWeServe: (
-      <div className="flex gap-8">
-        <DropdownColumn title={t("byRole")} links={[
-          { label: t("plantManager"), href: "/who-we-serve/plant-manager" },
-          { label: t("reliabilityEngineer"), href: "#" },
-          { label: t("maintenanceEngineer"), href: "#" },
-          { label: t("manufacturingEngineer"), href: "#" },
-        ]} />
-      </div>
-    ),
-    resources: (
-      <div className="flex gap-8">
-        <DropdownColumn title={t("resources")} links={[
-          { label: t("caseStudies"), href: "#" },
-          { label: t("ebooks"), href: "#" },
-          { label: t("blog"), href: "#" },
-        ]} />
-      </div>
-    ),
-    company: (
-      <div className="flex gap-8">
-        <DropdownColumn title={t("company")} links={[
-          { label: t("aboutUs"), href: "#" },
-          { label: t("careers"), href: "#" },
-          { label: t("newsroom"), href: "#" },
-        ]} />
-      </div>
-    ),
-    pricing: (
-      <div className="flex flex-col gap-2">
-        <DropdownLink label={t("conditionMonitoring")} href="#" />
-        <DropdownLink label={t("cmms")} href="#" />
-        <DropdownLink label={t("oee")} href="#" />
-      </div>
-    ),
-  };
-
-  return (
-    <div
-      className="absolute left-0 top-full z-50 min-w-[240px] rounded-lg border border-slate-200 bg-white p-6 shadow-lg"
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-    >
-      {content[id]}
-    </div>
-  );
-}
-
-function DropdownColumn({
-  title,
-  links,
-}: {
-  title: string;
-  links: { label: string; href: string }[];
-}) {
-  return (
-    <div className="flex min-w-[180px] flex-col gap-3">
-      <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">
-        {title}
-      </p>
-      {links.map((link) => (
-        <DropdownLink key={link.label} label={link.label} href={link.href} />
-      ))}
-    </div>
-  );
-}
-
-function DropdownLink({ label, href }: { label: string; href: string }) {
-  return (
-    <Link
-      href={href}
-      className="text-sm text-slate-600 transition-colors hover:text-blue-600"
-    >
-      {label}
-    </Link>
   );
 }

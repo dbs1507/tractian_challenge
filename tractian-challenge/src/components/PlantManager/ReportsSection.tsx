@@ -28,15 +28,50 @@ const TABS = [
   },
 ] as const;
 
+const AUTOPLAY_INTERVAL = 12000;
+
 export function ReportsSection() {
   const t = useTranslations("plantManager");
   const [activeId, setActiveId] = useState<string>(TABS[0].id);
+  const [displayId, setDisplayId] = useState<string>(TABS[0].id);
+  const [fading, setFading] = useState(false);
   const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [autoplay, setAutoplay] = useState(true);
   const tabBarRef = useRef<HTMLDivElement>(null);
   const tabRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0 });
 
-  const activeTab = TABS.find((tab) => tab.id === activeId) ?? TABS[0];
+  const activeTab = TABS.find((tab) => tab.id === displayId) ?? TABS[0];
+
+  // Fade transition: when activeId changes, fade out → swap content → fade in
+  useEffect(() => {
+    if (activeId === displayId) return;
+    setFading(true);
+    const timeout = setTimeout(() => {
+      setDisplayId(activeId);
+      setFading(false);
+    }, 300);
+    return () => clearTimeout(timeout);
+  }, [activeId, displayId]);
+
+  // Autoplay carousel: cycles through tabs every 5s, stops on user click
+  useEffect(() => {
+    if (!autoplay) return;
+    const timer = setInterval(() => {
+      setActiveId((prev) => {
+        const currentIdx = TABS.findIndex((tab) => tab.id === prev);
+        const nextIdx = (currentIdx + 1) % TABS.length;
+        return TABS[nextIdx].id;
+      });
+    }, AUTOPLAY_INTERVAL);
+    return () => clearInterval(timer);
+  }, [autoplay]);
+
+  // User manually selects a tab → stop autoplay
+  const handleTabClick = useCallback((tabId: string) => {
+    setAutoplay(false);
+    setActiveId(tabId);
+  }, []);
 
   // Calculate sliding indicator position relative to the tab bar container
   const updateIndicator = useCallback(() => {
@@ -101,7 +136,7 @@ export function ReportsSection() {
                   >
                     <button
                       type="button"
-                      onClick={() => setActiveId(tab.id)}
+                      onClick={() => handleTabClick(tab.id)}
                       aria-label={t(tab.titleKey)}
                       aria-selected={isActive}
                       className={`w-full rounded-sm px-6 py-1.5 text-body-md transition-all duration-100 sm:w-auto sm:items-start sm:p-4 sm:duration-300 sm:text-tag md:text-body-sm lg:rounded-none lg:px-2 lg:text-body-md xl:px-4 2xl:px-6 ${
@@ -128,7 +163,7 @@ export function ReportsSection() {
 
             {/* Content */}
             <article className="flex w-full justify-between gap-8 lg:gap-12">
-              <div className="animate__animated animate__fadeIn flex w-full flex-col items-center justify-between gap-8 transition duration-500 ease-in-out lg:min-h-[437px] lg:flex-row lg:gap-16">
+              <div className={`flex w-full flex-col items-center justify-between gap-8 transition-opacity duration-300 ease-in-out lg:min-h-[437px] lg:flex-row lg:gap-16 ${fading ? "opacity-0" : "opacity-100"}`}>
                 <div className="flex w-full flex-col gap-8 lg:max-w-[382px] lg:gap-12">
                   <article className="flex flex-col items-center gap-4 lg:max-w-[382px] lg:items-start">
                     <h3 className="font-heading font-bold text-[1.25rem] leading-[1.5rem] text-slate-700 lg:text-[1.25rem] lg:leading-[1.75rem]">

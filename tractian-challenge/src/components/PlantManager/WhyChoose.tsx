@@ -1,9 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { whyChooseImages } from "@/lib/images";
+
+const AUTOPLAY_INTERVAL = 5000;
 
 const TABS = [
   {
@@ -58,9 +60,42 @@ function CheckIcon({ active }: { active: boolean }) {
 export function WhyChoose() {
   const t = useTranslations("plantManager");
   const [activeId, setActiveId] = useState<string>(TABS[0].id);
+  const [displayId, setDisplayId] = useState<string>(TABS[0].id);
+  const [fading, setFading] = useState(false);
+  const [autoplay, setAutoplay] = useState(true);
 
-  // Busca a tab ativa - fallback pro primeiro se não encontrar
-  const activeTab = TABS.find((tab) => tab.id === activeId) ?? TABS[0];
+  // Busca a tab ativa para exibição - fallback pro primeiro se não encontrar
+  const activeTab = TABS.find((tab) => tab.id === displayId) ?? TABS[0];
+
+  // Fade transition: when activeId changes, fade out → swap content → fade in
+  useEffect(() => {
+    if (activeId === displayId) return;
+    setFading(true);
+    const timeout = setTimeout(() => {
+      setDisplayId(activeId);
+      setFading(false);
+    }, 300);
+    return () => clearTimeout(timeout);
+  }, [activeId, displayId]);
+
+  // Autoplay carousel: cycles through tabs, stops on user click
+  useEffect(() => {
+    if (!autoplay) return;
+    const timer = setInterval(() => {
+      setActiveId((prev) => {
+        const currentIdx = TABS.findIndex((tab) => tab.id === prev);
+        const nextIdx = (currentIdx + 1) % TABS.length;
+        return TABS[nextIdx].id;
+      });
+    }, AUTOPLAY_INTERVAL);
+    return () => clearInterval(timer);
+  }, [autoplay]);
+
+  // User manually selects a tab → stop autoplay
+  const handleTabClick = useCallback((tabId: string) => {
+    setAutoplay(false);
+    setActiveId(tabId);
+  }, []);
 
   return (
     <section
@@ -70,7 +105,7 @@ export function WhyChoose() {
       <div className="mx-auto flex w-full max-w-2xl flex-col gap-8 lg:max-w-6xl lg:gap-16">
         {/* Header */}
         <article className="flex w-full flex-col gap-4">
-          <p className="font-medium uppercase tracking-wide text-blue-600">
+          <p className="uppercase text-blue-600 text-body-md">
             {t("whyChooseTagline")}
           </p>
           <h2 className="font-heading text-[24px] font-bold leading-[32px] text-slate-700 lg:text-[40px] lg:leading-[52px]">
@@ -81,7 +116,7 @@ export function WhyChoose() {
         {/* Tabs + Image */}
         <div className="flex w-full flex-col gap-8 lg:min-h-[360px] lg:flex-row lg:items-start lg:justify-between">
           {/* Accordion tabs */}
-          <div className="flex w-full flex-col gap-4 border-l-2 border-slate-300 lg:w-1/2 lg:gap-5 lg:self-start">
+          <div className="flex w-full flex-col border-l-2 border-slate-300 lg:w-1/2 lg:gap-5 lg:self-start">
             {TABS.map((tab) => {
               const isActive = activeId === tab.id;
               return (
@@ -91,13 +126,13 @@ export function WhyChoose() {
                   className={`group -ml-[2px] flex w-full flex-col items-start border-l-2 bg-transparent px-4 text-left transition-colors ${
                     isActive ? "border-blue-500" : "border-transparent"
                   }`}
-                  onClick={() => setActiveId(tab.id)}
+                  onClick={() => handleTabClick(tab.id)}
                   aria-label={t(tab.titleKey)}
                   aria-expanded={isActive}
                 >
                   <div className="mb-2 flex w-full items-center gap-3 lg:justify-between">
                     <figure
-                      className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-sm transition-colors ${
+                      className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-xs transition-colors ${
                         isActive ? "bg-blue-600" : "bg-slate-400"
                       }`}
                     >
@@ -127,14 +162,13 @@ export function WhyChoose() {
             })}
           </div>
 
-          {/* Imagem dinâmica - uma única renderização */}
-          <figure className="relative h-[280px] w-full overflow-hidden rounded-lg lg:h-[320px] lg:w-1/2">
+          {/* Imagem dinâmica com fade */}
+          <figure className={`relative h-[280px] w-full overflow-hidden rounded-lg transition-opacity duration-300 ease-in-out lg:h-[320px] lg:w-1/2 ${fading ? "opacity-0" : "opacity-100"}`}>
             <Image
-              key={activeTab.id} // Force re-render pra transição suave
               src={whyChooseImages[activeTab.imageKey]}
               alt={t(activeTab.titleKey)}
               fill
-              className="object-contain transition-opacity duration-300 md:object-cover lg:object-contain"
+              className="object-contain md:object-cover lg:object-contain"
               sizes="(min-width: 1024px) 50vw, 100vw"
               priority={false}
             />

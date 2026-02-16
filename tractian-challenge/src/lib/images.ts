@@ -10,8 +10,19 @@ const IX = "auto=format,compress&cs=origin&fit=max&q=75";
 
 // ---- Hero ----
 export const heroImages = {
-  desktop: `${S3}/website/pages/who-we-serve/plant-manager/en/plant-manager-header-image.png`,
-  mobile: `${S3}/website/pages/who-we-serve/plant-manager/en/plant-manager-header-image-mobile.png`,
+  desktopEN: `${S3}/website/pages/who-we-serve/plant-manager/en/plant-manager-header-image.png`,
+  mobileEN: `${S3}/website/pages/who-we-serve/plant-manager/en/plant-manager-header-image-mobile.png`,
+  desktopPT: `${S3}/website/pages/who-we-serve/plant-manager/pt/header-image.png`,
+  mobilePT: `${S3}/website/pages/who-we-serve/plant-manager/pt/header-image-mobile.png`,
+  desktopES: `${S3}/website/pages/who-we-serve/plant-manager/pt/header-image.png`,
+  mobileES: `${S3}/website/pages/who-we-serve/plant-manager/pt/header-image-mobile.png`,
+};
+
+// ---- Company navbar (dropdown cards) ----
+export const companyNavbarImages = {
+  about: `${IMGIX}/website/components/navbar/general/about.png?${IX}&w=1080`,
+  careers: `${IMGIX}/website/components/navbar/general/careers.png?${IX}&w=1080`,
+  newsroom: `${IMGIX}/website/components/navbar/general/newsroom.png?${IX}&w=1080`,
 };
 
 // ---- Why Choose (feature image) ----

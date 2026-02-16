@@ -54,7 +54,13 @@ function ChevronDownIcon({ className }: { className?: string }) {
 const localeLabels: Record<string, string> = {
   en: "English (United States)",
   pt: "Português (Brasil)",
-  es: "Español",
+  es: "Español (México)",
+};
+
+const localeFlags: Record<string, string> = {
+  en: "🇺🇸",
+  pt: "🇧🇷",
+  es: "🇪🇸",
 };
 
 const localeShort: Record<string, string> = {
@@ -92,22 +98,54 @@ export function LanguageSwitcher({ variant = "desktop" }: LanguageSwitcherProps)
 
   if (variant === "mobile") {
     return (
-      <div className="flex flex-col gap-1">
-        {routing.locales.map((loc) => (
-          <button
-            key={loc}
-            type="button"
-            onClick={() => handleChange(loc)}
-            className={`flex items-center gap-3 rounded-sm px-2 py-2 text-sm transition-colors ${
-              locale === loc
-                ? "font-medium text-blue-600"
-                : "text-slate-500 hover:text-blue-600"
-            }`}
-          >
-            <GlobeIcon className="h-5 w-5 shrink-0 opacity-60" />
-            {localeLabels[loc]}
-          </button>
-        ))}
+      <div ref={ref} className="flex flex-col">
+        <button
+          type="button"
+          aria-expanded={isOpen}
+          aria-controls="mobile-locale-list"
+          id="mobile-locale-trigger"
+          onClick={() => setIsOpen(!isOpen)}
+          className="flex w-full items-center justify-between gap-2 rounded-sm px-0 py-2 text-left text-sm font-medium text-slate-500 transition-colors hover:text-blue-700"
+        >
+          <span className="flex items-center gap-3">
+            <GlobeIcon className="h-5 w-5 shrink-0" />
+            {localeLabels[locale]}
+          </span>
+          <span className="text-slate-500">
+            <ChevronDownIcon
+              className={`h-4 w-4 shrink-0 transition-transform ${
+                isOpen ? "rotate-180" : ""
+              }`}
+            />
+          </span>
+        </button>
+        <div
+          id="mobile-locale-list"
+          role="region"
+          aria-labelledby="mobile-locale-trigger"
+          className="overflow-hidden transition-all duration-200"
+          style={{ maxHeight: isOpen ? "200px" : "0" }}
+        >
+          <div className="flex flex-col gap-0.5 pt-2">
+            {routing.locales.map((loc) => (
+              <button
+                key={loc}
+                type="button"
+                onClick={() => handleChange(loc)}
+                className={`flex w-full items-center gap-3 rounded-sm px-2 py-2.5 text-left text-sm transition-colors ${
+                  locale === loc
+                    ? "bg-slate-100 font-medium text-blue-600"
+                    : "text-slate-600 hover:bg-slate-50 hover:text-blue-600"
+                }`}
+              >
+                <span className="text-base leading-none" aria-hidden>
+                  {localeFlags[loc]}
+                </span>
+                {localeLabels[loc]}
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
     );
   }
@@ -129,7 +167,7 @@ export function LanguageSwitcher({ variant = "desktop" }: LanguageSwitcherProps)
 
       {/* Dropdown */}
       {isOpen && (
-        <div className="absolute right-0 top-full z-50 mt-2 min-w-[200px] rounded-lg border border-slate-200 bg-white py-2 shadow-lg">
+        <div className="absolute right-0 top-full z-50 mt-2 min-w-[200px] rounded-lg bg-white py-2 shadow-lg">
           {routing.locales.map((loc) => (
             <button
               key={loc}
