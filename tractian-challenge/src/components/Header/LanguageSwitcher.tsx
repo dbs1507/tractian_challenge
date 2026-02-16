@@ -1,12 +1,11 @@
 "use client";
 
-import { useState, useRef, useEffect, useId } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useLocale } from "next-intl";
 import { useRouter, usePathname } from "@/i18n/routing";
 import { routing } from "@/i18n/routing";
 
-function GlobeIcon({ className }: { className?: string }) {
-  const id = `globe-${useId().replace(/:/g, "-")}`;
+function GlobeIcon({ className, id }: { className?: string; id: string }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -108,7 +107,7 @@ export function LanguageSwitcher({ variant = "desktop" }: LanguageSwitcherProps)
           className="flex w-full items-center justify-between gap-2 rounded-sm px-0 py-2 text-left text-sm font-medium text-slate-500 transition-colors hover:text-blue-700"
         >
           <span className="flex items-center gap-3">
-            <GlobeIcon className="h-5 w-5 shrink-0" />
+            <GlobeIcon id={`globe-${variant}`} className="h-5 w-5 shrink-0" />
             {localeLabels[locale]}
           </span>
           <span className="text-slate-500">
@@ -157,7 +156,7 @@ export function LanguageSwitcher({ variant = "desktop" }: LanguageSwitcherProps)
         className="group flex items-center gap-x-2 rounded-sm px-2 py-1 text-slate-500 transition-colors focus:outline-none hover:text-blue-600"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <GlobeIcon className="h-5 w-5 shrink-0" />
+        <GlobeIcon id={`globe-${variant}`} className="h-5 w-5 shrink-0" />
         <ChevronDownIcon
           className={`pointer-events-none h-3 w-3 shrink-0 transition-transform ${
             isOpen ? "rotate-180" : ""

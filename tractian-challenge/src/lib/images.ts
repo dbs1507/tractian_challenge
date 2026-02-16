@@ -125,6 +125,38 @@ export const companyLogos = [
   },
 ];
 
+// ---- Company Logos BR (pt / es – Brasil e América Latina) ----
+export const companyLogosBR = [
+  { name: "Danone", src: `${IMGIX}/website/components/company-logos/danone.png?${IX}&w=640`, width: 140, height: 40 },
+  { name: "EMS", src: `${IMGIX}/website/components/company-logos/ems.png?${IX}&w=640`, width: 140, height: 40 },
+  { name: "Bosch", src: `${IMGIX}/website/components/company-logos/bosch.png?${IX}&w=640`, width: 140, height: 40 },
+  { name: "Nissan", src: `${IMGIX}/website/components/company-logos/nissan.png?${IX}&w=640`, width: 140, height: 40 },
+  { name: "Embraer", src: `${IMGIX}/website/components/company-logos/embraer.png?${IX}&w=640`, width: 140, height: 40 },
+  { name: "CSN", src: `${IMGIX}/website/components/company-logos/csn.png?${IX}&w=640`, width: 140, height: 40 },
+  { name: "Suzano", src: `${IMGIX}/website/components/company-logos/suzano.png?${IX}&w=640`, width: 140, height: 40 },
+  { name: "CMPC", src: `${IMGIX}/website/components/company-logos/cmpc.png?${IX}&w=640`, width: 140, height: 40 },
+  { name: "Dexco", src: `${IMGIX}/website/components/company-logos/dexco.png?${IX}&w=640`, width: 140, height: 40 },
+  { name: "Ingredion", src: `${IMGIX}/website/components/company-logos/ingredion.png?${IX}&w=640`, width: 140, height: 40 },
+  { name: "Vibra", src: `${IMGIX}/website/components/company-logos/vibra.png?${IX}&w=640`, width: 140, height: 40 },
+  { name: "Atvos", src: `${IMGIX}/website/components/company-logos/atvos.png?${IX}&w=640`, width: 140, height: 40 },
+];
+
+// ---- Company Logos ES (Espanha / es) ----
+export const companyLogosES = [
+  { name: "P&G", src: `${IMGIX}/website/components/company-logos/p&g.png?${IX}&w=640`, width: 140, height: 40 },
+  { name: "Unilever", src: `${IMGIX}/website/components/company-logos/unilever.png?${IX}&w=640`, width: 140, height: 40 },
+  { name: "Whirlpool", src: `${IMGIX}/website/components/company-logos/whirlpool.png?${IX}&w=640`, width: 140, height: 40 },
+  { name: "DHL", src: `${IMGIX}/website/components/company-logos/dhl.png?${IX}&w=640`, width: 140, height: 40 },
+  { name: "Kimberly-Clark", src: `${IMGIX}/website/components/company-logos/kimberlyClark.png?${IX}&w=640`, width: 140, height: 40 },
+  { name: "CAT", src: `${IMGIX}/website/components/company-logos/cat.png?${IX}&w=640`, width: 140, height: 40 },
+  { name: "Cemex", src: `${IMGIX}/website/components/company-logos/cemex.png?${IX}&w=640`, width: 140, height: 40 },
+  { name: "Constellation Brands", src: `${IMGIX}/website/components/company-logos/constellationBrands.png?${IX}&w=640`, width: 140, height: 40 },
+  { name: "WestRock", src: `${IMGIX}/website/components/company-logos/westRock.png?${IX}&w=640`, width: 140, height: 40 },
+  { name: "Ingredion", src: `${IMGIX}/website/components/company-logos/ingredion.png?${IX}&w=640`, width: 140, height: 40 },
+  { name: "Bimbo", src: `${IMGIX}/website/components/company-logos/bimbo.png?${IX}&w=640`, width: 140, height: 40 },
+  { name: "Grupo México", src: `${IMGIX}/website/components/company-logos/grupoMexico.png?${IX}&w=640`, width: 140, height: 40 },
+];
+
 // ---- CTA Background ----
 export const ctaImages = {
   moreThanMachines: `${S3}/website/pages/who-we-serve/maintenance-engineer/en/more-than-machines.png`,

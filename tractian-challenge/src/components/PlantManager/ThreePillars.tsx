@@ -101,7 +101,7 @@ export function ThreePillars() {
     <section className="w-full bg-slate-100 px-4 py-12 lg:py-16">
       <div className="mx-auto flex w-full max-w-2xl flex-col items-center gap-8 lg:max-w-6xl lg:gap-12">
         <h2 className="font-heading text-[1.25rem] font-bold leading-[1.75rem] text-slate-700 lg:text-center lg:text-[32px] lg:leading-[40px]">
-          {locale === "es" ? (
+          {locale === "es" || locale === "pt" ? (
             <>
               <span className="block">{t("threePillarsTitle1")}</span>
               <span className="block">{t("threePillarsTitle2")}</span>

@@ -14,11 +14,15 @@ export function ProcessSteps() {
   const t = useTranslations("plantManager");
 
   return (
-    <section className="bg-slate-100 px-4 py-12 lg:py-16">
+    <section className="bg-slate-100 px-4 py-6 lg:py-16">
       <div className="mx-auto flex w-full max-w-2xl flex-col items-start gap-8 lg:max-w-6xl lg:items-center lg:gap-12">
+        {
+          locale === 'pt'? (<p className="text-left uppercase text-blue-600 text-body-md lg:text-center">PASSO A PASSO</p>
+          ): (<div/>)
+        }         
         {/* Title */}
-        <h2 className="text-left font-heading text-[1.25rem] font-bold leading-[1.75rem] text-slate-700 lg:mb-4 lg:text-center lg:text-[32px] lg:leading-[40px]">
-          {locale === "es" ? (
+        <h2 className="text-left font-heading text-[1.25rem] font-bold leading-[2rem] text-slate-700 lg:mb-4 lg:text-center lg:text-[32px] lg:leading-[40px]">
+          {locale === "es" ? (  
             <>
               <span className="block">{t("processStepsTitle1")}</span>
               <span className="block">{t("processStepsTitle2")}</span>

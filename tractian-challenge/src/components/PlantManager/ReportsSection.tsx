@@ -141,7 +141,7 @@ export function ReportsSection() {
                       onClick={() => handleTabClick(tab.id)}
                       aria-label={t(tab.titleKey)}
                       aria-selected={isActive}
-                      className={`w-full rounded-sm px-6 py-1.5 text-body-md transition-all duration-100 sm:w-auto sm:items-start sm:p-4 sm:duration-300 sm:text-tag md:text-body-sm lg:rounded-none lg:px-2 lg:text-body-md xl:px-4 2xl:px-6 ${
+                      className={`w-full max-sm:text-[14px] max-sm:leading-5 rounded-sm px-6 py-1.5 text-body-md transition-all duration-100 sm:w-auto sm:items-start sm:p-4 sm:duration-300 sm:text-tag md:text-body-sm lg:rounded-none lg:px-2 lg:text-body-md xl:px-4 2xl:px-6 ${
                         isActive
                           ? "bg-white font-semibold text-slate-700 shadow-sm sm:bg-transparent sm:font-bold sm:shadow-none"
                           : "text-slate-500 hover:text-slate-600"
@@ -182,7 +182,7 @@ export function ReportsSection() {
                         return text ? (
                           <li
                             key={key}
-                            className="text-body-md text-slate-500"
+                            className="text-body-md text-slate-500 max-md:text-[14px] max-md:leading-5"
                           >
                             {text}
                           </li>

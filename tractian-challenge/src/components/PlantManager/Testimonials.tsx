@@ -2,8 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { useTranslations } from "next-intl";
-import { testimonialAvatars } from "@/lib/images";
+import { useLocale, useTranslations } from "next-intl";
 
 /* ─── Quote icon (blue quotation marks) ─── */
 function QuoteIcon() {
@@ -59,57 +58,32 @@ function G2Badge() {
 
 /* ─── Testimonial data ─── */
 const TESTIMONIALS = [
-  {
-    quoteKey: "testimonial1Quote" as const,
-    nameKey: "testimonial1Name" as const,
-    roleKey: "testimonial1Role" as const,
-    companyKey: "testimonial1Company" as const,
-    avatarKey: "paul" as const,
-    hasG2Badge: false,
-  },
-  {
-    quoteKey: "testimonial2Quote" as const,
-    nameKey: "testimonial2Name" as const,
-    roleKey: "testimonial2Role" as const,
-    companyKey: "testimonial2Company" as const,
-    avatarKey: "nicholas" as const,
-    hasG2Badge: true,
-  },
-  {
-    quoteKey: "testimonial3Quote" as const,
-    nameKey: "testimonial3Name" as const,
-    roleKey: "testimonial3Role" as const,
-    companyKey: "testimonial3Company" as const,
-    avatarKey: "fabiano" as const,
-    hasG2Badge: false,
-  },
-  {
-    quoteKey: "testimonial4Quote" as const,
-    nameKey: "testimonial4Name" as const,
-    roleKey: "testimonial4Role" as const,
-    companyKey: "testimonial4Company" as const,
-    avatarKey: "andy" as const,
-    hasG2Badge: false,
-  },
+  { quoteKey: "testimonial1Quote" as const, nameKey: "testimonial1Name" as const, roleKey: "testimonial1Role" as const, companyKey: "testimonial1Company" as const, imageKey: "testimonial1Image" as const },
+  { quoteKey: "testimonial2Quote" as const, nameKey: "testimonial2Name" as const, roleKey: "testimonial2Role" as const, companyKey: "testimonial2Company" as const, imageKey: "testimonial2Image" as const },
+  { quoteKey: "testimonial3Quote" as const, nameKey: "testimonial3Name" as const, roleKey: "testimonial3Role" as const, companyKey: "testimonial3Company" as const, imageKey: "testimonial3Image" as const },
+  { quoteKey: "testimonial4Quote" as const, nameKey: "testimonial4Name" as const, roleKey: "testimonial4Role" as const, companyKey: "testimonial4Company" as const, imageKey: "testimonial4Image" as const },
 ] as const;
 
 /* ─── Single testimonial card ─── */
 function TestimonialCard({
-  quoteKey,
-  nameKey,
-  roleKey,
-  companyKey,
-  avatarKey,
-  hasG2Badge,
-}: (typeof TESTIMONIALS)[number]) {
+  testimonial,
+  index,
+}: {
+  testimonial: (typeof TESTIMONIALS)[number];
+  index: number;
+}) {
   const t = useTranslations("plantManager");
+  const locale = useLocale();
+  const { quoteKey, nameKey, roleKey, companyKey, imageKey } = testimonial;
+  const showG2Badge =
+    (locale === "en" && index === 1) || (locale === "es" && index === 0);
 
   return (
     <div className="flex h-auto w-full flex-col gap-4">
-      {/* Quote icon + optional badge */}
+      {/* Quote icon + optional badge (en: 2ª pessoa, es: 1ª, pt: nenhum) */}
       <div className="flex w-full items-center gap-4">
         <QuoteIcon />
-        {hasG2Badge && <G2Badge />}
+        {showG2Badge && <G2Badge />}
       </div>
 
       {/* Quote text */}
@@ -121,7 +95,7 @@ function TestimonialCard({
       <div className="flex items-center gap-3 lg:justify-between">
         <figure className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full lg:h-14 lg:w-14">
           <Image
-            src={testimonialAvatars[avatarKey]}
+            src={t(imageKey)}
             alt={t(nameKey)}
             width={120}
             height={120}
@@ -139,8 +113,8 @@ function TestimonialCard({
   );
 }
 
-/* ─── Mobile carousel dot ─── */
-function Dot({
+/* ─── Mobile carousel bar indicator ─── */
+function CarouselBar({
   active,
   onClick,
 }: {
@@ -152,8 +126,10 @@ function Dot({
       type="button"
       onClick={onClick}
       aria-label="Go to slide"
-      className={`h-2 w-2 rounded-full transition-colors ${
-        active ? "bg-blue-600" : "bg-slate-300"
+      className={`shrink-0 transition-colors ${
+        active
+          ? "h-[2.6px] w-14 rounded-sm bg-blue-600"
+          : "h-1 w-6 rounded-sm bg-slate-200"
       }`}
     />
   );
@@ -174,8 +150,8 @@ export function Testimonials() {
 
         {/* Desktop grid (sm+) */}
         <div className="hidden h-auto w-full items-stretch gap-8 sm:grid sm:grid-cols-2 lg:flex lg:flex-row lg:justify-between lg:gap-12">
-          {TESTIMONIALS.map((testimonial) => (
-            <TestimonialCard key={testimonial.nameKey} {...testimonial} />
+          {TESTIMONIALS.map((testimonial, idx) => (
+            <TestimonialCard key={testimonial.nameKey} testimonial={testimonial} index={idx} />
           ))}
         </div>
 
@@ -186,21 +162,21 @@ export function Testimonials() {
               className="flex transition-transform duration-300 ease-in-out"
               style={{ transform: `translateX(-${activeSlide * 100}%)` }}
             >
-              {TESTIMONIALS.map((testimonial) => (
+              {TESTIMONIALS.map((testimonial, idx) => (
                 <div
                   key={testimonial.nameKey}
                   className="w-full shrink-0 px-2"
                 >
-                  <TestimonialCard {...testimonial} />
+                  <TestimonialCard testimonial={testimonial} index={idx} />
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Pagination dots */}
-          <div className="flex items-center gap-2">
+          {/* Pagination bars */}
+          <div className="flex items-center justify-center gap-1.5">
             {TESTIMONIALS.map((testimonial, idx) => (
-              <Dot
+              <CarouselBar
                 key={testimonial.nameKey}
                 active={idx === activeSlide}
                 onClick={() => setActiveSlide(idx)}

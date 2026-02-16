@@ -167,26 +167,26 @@ export function MobileMenu({ onOpenDemo }: { onOpenDemo?: () => void } = {}) {
             </div>
 
             {/* Botões logo abaixo do idioma (como em produção) */}
-            <div className="flex items-center gap-4 px-4 pt-3 pb-6">
-            <a
-              href="https://app.tractian.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="min-w-0 flex-1 rounded-sm px-4 py-2 text-center text-sm font-medium text-blue-600 outline outline-1 outline-blue-600 transition hover:outline-2 active:outline-4"
-            >
-              {tc("login")}
-            </a>
-            <button
-              type="button"
-              onClick={() => {
-                setIsOpen(false);
-                onOpenDemo?.();
-              }}
-              className="min-w-0 flex-1 rounded-sm bg-blue-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-900 active:bg-blue-950"
-            >
-              {tc("getDemo")}
-            </button>
-          </div>
+            <div className="flex items-center gap-4 px-3 pt-5 pb-6">
+              <a
+                href="https://app.tractian.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="min-w-0 flex-1 rounded-xs px-4 py-2 text-center text-sm font-medium text-blue-600 outline outline-1 outline-blue-600 transition hover:outline-2 active:outline-4"
+              >
+                {tc("login")}
+              </a>
+              <button
+                type="button"
+                onClick={() => {
+                  setIsOpen(false);
+                  onOpenDemo?.();
+                }}
+                className="min-w-0 flex-1 rounded-xs bg-blue-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-900 active:bg-blue-950"
+              >
+                {tc("getDemo")}
+              </button>
+            </div>
         </div>
       </div>
       </div>

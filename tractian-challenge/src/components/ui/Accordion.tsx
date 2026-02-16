@@ -65,10 +65,10 @@ export function Accordion({ items }: AccordionProps) {
             key={item.id}
             type="button"
             onClick={() => toggle(item.id)}
-            className="group w-full rounded-xs border border-slate-300 bg-transparent p-4 transition hover:border-blue-600"
+            className={`group w-full rounded-xs border bg-transparent p-4 transition hover:border-blue-600 ${isOpen ? "border-blue-600" : "border-slate-300"}`}
           >
             <div className="mb-0 flex w-full items-center justify-between gap-3 transition-all">
-              <h3 className={`text-left text-[14px] font-medium leading-[22px] transition-all group-hover:text-blue-600 group-hover:brightness-110 lg:text-[16px] lg:font-semibold lg:leading-[24px] ${isOpen ? "text-blue-600" : "text-slate-700"}`}>
+              <h3 className={`text-left font-medium text-body-md transition-all group-hover:text-blue-600 lg:font-semibold ${isOpen ? "text-blue-600" : "text-slate-700"}`}>
                 {item.title}
               </h3>
               <figure>

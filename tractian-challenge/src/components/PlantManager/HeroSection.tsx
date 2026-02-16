@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { heroImages } from "@/lib/images";
 import { useDemoModal } from "@/contexts/DemoModalContext";
@@ -10,12 +11,19 @@ const desktopHeroByLocale: Record<string, string> = {
   es: heroImages.desktopES,
 };
 
+const mobileHeroByLocale: Record<string, string> = {
+  en: heroImages.mobileEN,
+  pt: heroImages.mobilePT,
+  es: heroImages.mobileES,
+};
+
 export function HeroSection() {
   const locale = useLocale();
   const t = useTranslations("plantManager");
   const { openDemoModal } = useDemoModal();
   const desktopHero = desktopHeroByLocale[locale] ?? heroImages.desktopEN;
-    const xlPlClass = locale === "en" ? "xl:pl-[153.8px]" : locale === "es" ? "xl:pl-[150px]" : "xl:pl-[158px]";
+  const mobileHero = mobileHeroByLocale[locale] ?? heroImages.mobileEN;
+  const xlPlClass = locale === "en" ? "xl:pl-[153.8px]" : locale === "es" ? "xl:pl-[150px]" : "xl:pl-[158px]";
 
   return (
     <section className="relative w-full 2xl:bg-right-top 3xl:min-h-[675px] 4xl:min-h-[695px]">
@@ -24,39 +32,53 @@ export function HeroSection() {
         className="absolute inset-0 hidden bg-cover bg-right bg-no-repeat md:block"
         style={{ backgroundImage: `url(${desktopHero})` }}
       />
-      {/* Dark overlay + content */}
-      <div className={`relative z-10 flex w-full max-w-full justify-end bg-blue-950/80 px-4 pb-12 pt-14 md:max-w-[50%] md:items-center md:bg-opacity-80 lg:px-18 lg:py-16 xl:py-20 ${xlPlClass} xl:pr-24 3xl:min-h-[675px] 4xl:min-h-[695px]`}>
-        <div className="flex w-full flex-col items-center gap-8 md:w-fit md:items-start">
-          <article className="relative z-20 flex w-full flex-col items-center gap-4 md:items-start">
-            <p className="text-center font-light text-white md:text-left">
-              {t("heroTagline")}
-            </p>
-            <h1 className="font-heading text-center text-[24px] font-bold leading-[32px] text-white md:text-left lg:text-[40px] lg:leading-[52px]">
-              {t("heroTitle")}
-            </h1>
-            <p className="text-center font-light text-white text-body-md md:text-left">
-              {t("heroDesc")}
-            </p>
-          </article>
-          <button
-            className="relative z-30 mx-auto flex max-w-fit items-center justify-center gap-2 rounded-sm bg-blue-600 px-4 py-2 font-medium text-white transition duration-150 ease-in-out hover:bg-blue-900 active:bg-blue-950 disabled:cursor-not-allowed disabled:bg-slate-300 md:mx-0"
-            type="button"
-            onClick={openDemoModal}
-          >
-            {t("heroButton")}
-            <svg
-              fill="none"
-              height="16"
-              viewBox="0 0 16 16"
-              width="16"
-              xmlns="http://www.w3.org/2000/svg"
+      {/* Mobile: stacked layout (blue block + image below). Desktop: overlay as before */}
+      <div className="relative z-10 flex flex-col md:flex-row">
+        {/* Dark overlay + content — mobile: centered; desktop: half width, left-aligned */}
+        <div className={`flex w-full max-w-full flex-col justify-end bg-blue-950 px-4 pb-12 pt-14 md:max-w-[50%] md:flex-row md:items-center md:bg-blue-950/80 md:pb-12 md:pt-14 lg:px-18 lg:py-16 xl:py-20 ${xlPlClass} xl:pr-24 3xl:min-h-[675px] 4xl:min-h-[695px]`}>
+          <div className="flex w-full flex-col items-center gap-8 md:items-start md:gap-8 md:w-fit">
+            <article className="relative z-20 flex w-full flex-col items-center gap-4 md:items-start">
+              <p className="text-center font-light text-white text-body-md md:text-left max-md:text-[14px]">
+                {t("heroTagline")}
+              </p>
+              <h1 className="font-heading text-center text-[24px] font-bold leading-[32px] text-white md:text-left lg:text-[40px] lg:leading-[52px]">
+                {t("heroTitle")}
+              </h1>
+              <p className="text-center font-light text-white text-body-md md:text-left max-md:text-[14px] max-md:leading-6">
+                {t("heroDesc")}
+              </p>
+            </article>
+            <button
+              className="relative z-30 mx-auto flex max-w-fit items-center justify-center gap-2 rounded-xs bg-blue-600 px-4 py-2 font-medium text-white transition duration-150 ease-in-out hover:bg-blue-900 active:bg-blue-950 disabled:cursor-not-allowed disabled:bg-slate-300 md:mx-0"
+              type="button"
+              onClick={openDemoModal}
             >
-              <path
-                d="M15.3671 8.03333L9.90046 13.5L9.16712 12.7667L13.4338 8.5H0.633789V7.5H13.4338L9.16712 3.23333L9.90046 2.5L15.3671 8.03333Z"
-                fill="white"
-              />
-            </svg>
-          </button>
+              {t("heroButton")}
+              <svg
+                fill="none"
+                height="16"
+                viewBox="0 0 16 16"
+                width="16"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M15.3671 8.03333L9.90046 13.5L9.16712 12.7667L13.4338 8.5H0.633789V7.5H13.4338L9.16712 3.23333L9.90046 2.5L15.3671 8.03333Z"
+                  fill="white"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+        {/* Hero image - mobile only: 430×340 px render size */}
+        <div className="relative h-[340px] w-full max-w-[430px] md:hidden">
+          <Image
+            src={mobileHero}
+            alt=""
+            width={430}
+            height={340}
+            className="h-full w-full object-cover object-top"
+            priority
+          />
         </div>
       </div>
 

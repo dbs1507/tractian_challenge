@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { useTranslations } from "next-intl";
+import { CustomSelect } from "./CustomSelect";
 
 const ASSET_OPTIONS = [
   "assetLess25",
@@ -14,9 +15,6 @@ const ASSET_OPTIONS = [
 
 const inputClass =
   "rounded-sm p-3 text-body-md outline ring-0 w-full placeholder:text-slate-500 text-slate-700 bg-white outline-1 outline-slate-400 hover:outline-slate-700 focus:outline-2 focus:outline-blue-600 disabled:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-70";
-
-const selectClass =
-  "rounded-sm p-3 text-body-md outline ring-0 w-full bg-white outline-1 outline-slate-400 hover:outline-slate-700 focus:outline-2 focus:outline-blue-600 disabled:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-70";
 
 function CloseIcon({ className }: { className?: string }) {
   return (
@@ -50,6 +48,34 @@ export function DemoModal({
   const [jobTitle, setJobTitle] = useState("");
   const [industrySector, setIndustrySector] = useState("");
   const [solutionOfInterest, setSolutionOfInterest] = useState("");
+
+  const jobOptions = useMemo(
+    () => [
+      { value: "plant-manager", label: t("jobOptionPlantManager") },
+      { value: "maintenance", label: t("jobOptionMaintenance") },
+      { value: "reliability", label: t("jobOptionReliability") },
+      { value: "other", label: t("jobOptionOther") },
+    ],
+    [t]
+  );
+  const industryOptions = useMemo(
+    () => [
+      { value: "automotive", label: t("industryOptionAutomotive") },
+      { value: "chemical", label: t("industryOptionChemical") },
+      { value: "manufacturing", label: t("industryOptionManufacturing") },
+      { value: "mining", label: t("industryOptionMining") },
+      { value: "other", label: t("industryOptionOther") },
+    ],
+    [t]
+  );
+  const solutionOptions = useMemo(
+    () => [
+      { value: "condition-monitoring", label: t("solutionOptionCM") },
+      { value: "cmms", label: t("solutionOptionCMMS") },
+      { value: "oee", label: t("solutionOptionOEE") },
+    ],
+    [t]
+  );
 
   const handleEscape = useCallback(
     (e: KeyboardEvent) => {
@@ -143,8 +169,8 @@ export function DemoModal({
               </div>
             </fieldset>
 
-            <section className="flex w-full flex-col gap-3 sm:flex-row">
-              <fieldset className="flex w-full flex-col gap-2 font-sans">
+            <section className="flex w-full flex-col gap-3 sm:flex-row sm:gap-4">
+              <fieldset className="default-fieldset flex min-w-0 flex-1 flex-col gap-2 font-sans">
                 <div className="relative flex rounded-sm outline outline-1 outline-slate-400 hover:outline-slate-700 focus-within:outline-2 focus-within:outline-blue-600">
                   <select
                     name="countryCode"
@@ -162,64 +188,43 @@ export function DemoModal({
                     type="tel"
                     name="phone"
                     placeholder="+55"
-                    className={`flex-1 rounded-r-sm border-0 border-l border-slate-200 bg-white px-3 py-3 text-body-md outline-none placeholder:text-slate-500 focus:ring-0 ${inputClass}`}
+                    className={`flex-1 min-w-0 rounded-r-sm border-0 border-l border-slate-200 bg-white px-3 py-3 text-body-md outline-none placeholder:text-slate-500 focus:ring-0 ${inputClass}`}
                   />
                 </div>
               </fieldset>
-              <div className="relative flex w-full flex-col gap-2 font-sans">
-                <select
+              <div className="relative flex min-w-0 flex-1 flex-col gap-2 font-sans">
+                <CustomSelect
                   name="jobTitle"
                   value={jobTitle}
-                  onChange={(e) => setJobTitle(e.target.value)}
-                  className={`${selectClass} ${jobTitle ? "text-slate-700" : "text-slate-500"}`}
+                  onChange={setJobTitle}
+                  placeholder={t("jobTitle")}
+                  options={jobOptions}
                   aria-label={t("jobTitle")}
-                >
-                  <option value="" disabled>
-                    {t("jobTitle")}
-                  </option>
-                  <option value="plant-manager">Plant Manager</option>
-                  <option value="maintenance">Maintenance Manager</option>
-                  <option value="reliability">Reliability Engineer</option>
-                  <option value="other">Other</option>
-                </select>
+                />
               </div>
             </section>
 
-            <div className="relative flex w-full flex-col gap-2">
-              <select
+            <div className="relative mx-auto flex w-full flex-col gap-2">
+              <CustomSelect
                 name="industrySector"
                 value={industrySector}
-                onChange={(e) => setIndustrySector(e.target.value)}
-                className={`${selectClass} font-sans ${industrySector ? "text-slate-700" : "text-slate-500"}`}
+                onChange={setIndustrySector}
+                placeholder={t("industrySector")}
+                options={industryOptions}
                 aria-label={t("industrySector")}
-              >
-                <option value="" disabled>
-                  {t("industrySector")}
-                </option>
-                <option value="automotive">Automotive & Parts</option>
-                <option value="chemical">Chemicals</option>
-                <option value="manufacturing">Manufacturing</option>
-                <option value="mining">Mining & Metals</option>
-                <option value="other">Other</option>
-              </select>
+              />
             </div>
 
-            <fieldset className="flex w-full flex-col gap-2">
+            <fieldset className="flex w-full flex-col gap-2" data-cid="select-input">
               <div className="relative">
-                <select
+                <CustomSelect
                   name="solutionOfInterest"
                   value={solutionOfInterest}
-                  onChange={(e) => setSolutionOfInterest(e.target.value)}
-                  className={`${selectClass} font-sans ${solutionOfInterest ? "text-slate-700" : "text-slate-500"}`}
+                  onChange={setSolutionOfInterest}
+                  placeholder={t("solutionOfInterest")}
+                  options={solutionOptions}
                   aria-label={t("solutionOfInterest")}
-                >
-                  <option value="" disabled>
-                    {t("solutionOfInterest")}
-                  </option>
-                  <option value="condition-monitoring">Condition Monitoring</option>
-                  <option value="cmms">CMMS</option>
-                  <option value="oee">OEE</option>
-                </select>
+                />
               </div>
             </fieldset>
 
