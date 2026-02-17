@@ -48,7 +48,6 @@ export function ReportsSection() {
 
   const activeTab = TABS.find((tab) => tab.id === displayId) ?? TABS[0];
 
-  // Fade transition: when activeId changes, fade out → swap content → fade in
   useEffect(() => {
     if (activeId === displayId) return;
     setFading(true);
@@ -59,7 +58,6 @@ export function ReportsSection() {
     return () => clearTimeout(timeout);
   }, [activeId, displayId]);
 
-  // Autoplay: cycle tabs periodically, stop on user click
   useEffect(() => {
     if (!autoplay) return;
     const timer = setInterval(() => {
@@ -72,13 +70,11 @@ export function ReportsSection() {
     return () => clearInterval(timer);
   }, [autoplay]);
 
-  // User manually selects a tab → stop autoplay
   const handleTabClick = useCallback((tabId: string) => {
     setAutoplay(false);
     setActiveId(tabId);
   }, []);
 
-  // Calculate sliding indicator position relative to the tab bar container
   const updateIndicator = useCallback(() => {
     const idx = TABS.findIndex((tab) => tab.id === activeId);
     const el = tabRefs.current[idx];
@@ -118,7 +114,6 @@ export function ReportsSection() {
 
         <section className="w-full">
           <div className="mx-auto flex w-full flex-col gap-12">
-            {/* Tab bar */}
             <div
               ref={tabBarRef}
               role="tablist"
@@ -155,7 +150,6 @@ export function ReportsSection() {
                   </div>
                 );
               })}
-              {/* Sliding underline for xl+ */}
               <hr
                 className="pointer-events-none absolute bottom-0 hidden border border-blue-600 transition-all duration-500 xl:block"
                 style={{
@@ -166,7 +160,6 @@ export function ReportsSection() {
               />
             </div>
 
-            {/* Content */}
             <article className="flex w-full justify-between gap-8 lg:gap-12">
               <div className={`flex w-full flex-col items-center justify-between gap-8 transition-opacity duration-300 ease-in-out lg:min-h-[437px] lg:flex-row lg:gap-16 ${fading ? "opacity-0" : "opacity-100"}`}>
                 <div className="flex w-full flex-col gap-8 lg:max-w-[382px] lg:gap-12">
@@ -205,7 +198,6 @@ export function ReportsSection() {
         </section>
       </div>
 
-      {/* Lightbox */}
       {lightboxOpen && (
         <ImageLightbox
           src={reportsImages[activeTab.imageKey]}

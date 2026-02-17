@@ -49,7 +49,6 @@ export function MobileMenu({ onOpenDemo }: { onOpenDemo?: () => void } = {}) {
 
   return (
     <>
-      {/* Hamburger button */}
       <figure className="flex items-center justify-center">
         <button
           className="flex h-10 w-10 items-center justify-center"
@@ -79,7 +78,6 @@ export function MobileMenu({ onOpenDemo }: { onOpenDemo?: () => void } = {}) {
         </button>
       </figure>
 
-      {/* Backdrop */}
       <div
         className="fixed inset-0 z-[9998] bg-black/60 backdrop-blur-[1px] transition-opacity duration-300 ease-out"
         style={{
@@ -90,7 +88,6 @@ export function MobileMenu({ onOpenDemo }: { onOpenDemo?: () => void } = {}) {
         onClick={() => setIsOpen(false)}
       />
 
-      {/* Slide-in panel: da direita para esquerda */}
       <div
         className="fixed inset-y-0 right-0 z-[9999] w-full max-w-full bg-white shadow-xl transition-[transform] duration-300 ease-out"
         style={{
@@ -102,7 +99,6 @@ export function MobileMenu({ onOpenDemo }: { onOpenDemo?: () => void } = {}) {
         }}
       >
         <div className="flex flex-col">
-          {/* Header: logo + fechar */}
           <header className="flex shrink-0 items-center justify-between px-4 py-2 bg-slate-100">
             <Link href="/who-we-serve/plant-manager" aria-label="Tractian Home" onClick={() => setIsOpen(false)}>
               <Image
@@ -126,7 +122,6 @@ export function MobileMenu({ onOpenDemo }: { onOpenDemo?: () => void } = {}) {
             </button>
           </header>
 
-          {/* Nav sections + idioma + botões em fluxo contínuo (como em produção) */}
           <div className="flex flex-col mt-[17px]">
             {navSections.map((section) => (
               <div key={section.id} className="w-full">
@@ -144,7 +139,6 @@ export function MobileMenu({ onOpenDemo }: { onOpenDemo?: () => void } = {}) {
                   />
                 </button>
 
-                {/* Accordion content: expande à altura natural; scroll é do painel todo (como em produção) */}
                 <div
                   className="overflow-hidden transition-all duration-200"
                   style={{
@@ -162,12 +156,10 @@ export function MobileMenu({ onOpenDemo }: { onOpenDemo?: () => void } = {}) {
               </div>
             ))}
 
-            {/* Language switcher */}
             <div className="px-4 py-4">
               <LanguageSwitcher variant="mobile" />
             </div>
 
-            {/* Botões logo abaixo do idioma (como em produção) */}
             <div className="flex items-center gap-4 px-3 pt-5 pb-6">
               <a
                 href="https://app.tractian.com"

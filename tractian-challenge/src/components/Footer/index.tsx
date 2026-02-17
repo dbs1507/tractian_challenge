@@ -4,7 +4,6 @@ import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { Link } from "@/i18n/routing";
 
-/* ─── Badge / Certification images ─── */
 const BADGES = [
   { alt: "Front Runners", src: "https://imgix.tractian.com/website/components/footer/v2/front-runners.png?auto=format,compress&cs=origin&fit=max&q=75&w=384", maxWidth: 50, w: 149, h: 156 },
   { alt: "Forbes", src: "https://imgix.tractian.com/website/components/footer/v2/forbes-ai.png?auto=format,compress&cs=origin&fit=max&q=75&w=384", maxWidth: 60, w: 181, h: 144 },
@@ -16,7 +15,6 @@ const BADGES = [
   { alt: "Best Meets Requirements", src: "https://imgix.tractian.com/website/components/footer/v2/asset-management-best-meets-requirements.png?auto=format,compress&cs=origin&fit=max&q=75&w=384", maxWidth: 42, w: 180, h: 158 },
 ];
 
-/* ─── Link data structures ─── */
 type FooterLink = { key: string; href: string; external?: boolean };
 type FooterSection = { titleKey: string; links: FooterLink[] };
 
@@ -107,8 +105,6 @@ const DOWNLOAD_SECTION: FooterSection = {
   ],
 };
 
-/* ─── SVG Icon components ─── */
-
 function TractianLogo() {
   return (
     <svg viewBox="0 0 177 25" className="h-8 w-28 text-blue-600 lg:h-12 lg:w-36" fill="currentColor" aria-hidden>
@@ -191,7 +187,6 @@ function PrivacyIcon() {
   );
 }
 
-/* ─── Helper: Render a footer link section ─── */
 function FooterLinkSection({
   section,
   t,
@@ -231,7 +226,6 @@ function FooterLinkSection({
   );
 }
 
-/* ─── Main Footer component ─── */
 export function Footer() {
   const t = useTranslations("footer");
   const year = new Date().getFullYear();
@@ -239,7 +233,6 @@ export function Footer() {
   return (
     <footer className="bg-slate-100 px-4 py-12 xl:px-0">
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-8 lg:gap-12">
-        {/* ── Row 1: Logo + Badges ── */}
         <div className="flex w-full flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <figure className="hidden w-full sm:flex">
             <TractianLogo />
@@ -265,9 +258,7 @@ export function Footer() {
           </div>
         </div>
 
-        {/* ── Row 2: Link sections ── */}
         <div className="flex w-full flex-col gap-4 sm:flex-row sm:justify-between sm:gap-8 lg:gap-16 font-normal">
-          {/* Left grid: Product sections */}
           <div className="grid w-full grid-cols-1 gap-4 md:grid-cols-2 lg:gap-x-16 lg:gap-y-8">
             {PRODUCT_SECTIONS.map((section) => (
               <FooterLinkSection
@@ -279,7 +270,6 @@ export function Footer() {
             ))}
           </div>
 
-          {/* Right: Integrations, Resources, Support, Download */}
           <div className="flex w-full flex-col gap-4 md:flex-row lg:gap-16 font-normal">
             <div className="flex w-full flex-col gap-4 sm:gap-8 lg:gap-12">
               <FooterLinkSection
@@ -304,9 +294,7 @@ export function Footer() {
           </div>
         </div>
 
-        {/* ── Row 3: Bottom bar ── */}
         <div className="mt-2 flex w-full flex-col-reverse items-center gap-2 sm:mt-0 md:flex-row md:items-start md:justify-between md:gap-4">
-          {/* Left: Privacy + Copyright */}
           <div className="flex w-full flex-col items-center gap-2 md:items-start">
             <button className="group flex items-center gap-x-2" type="button">
               <PrivacyIcon />
@@ -319,7 +307,6 @@ export function Footer() {
             </p>
           </div>
 
-          {/* Right: Social links + Address */}
           <div className="flex w-full flex-col items-center gap-2 md:items-end">
             <div className="flex items-center gap-x-4 lg:gap-x-6">
               <a className="transition-all ease-in-out lg:hover:brightness-110" href="https://www.linkedin.com/company/get-tractian/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">

@@ -40,7 +40,6 @@ export function Header() {
   const navRef = useRef<HTMLElement>(null);
   const megaMenuRef = useRef<HTMLDivElement>(null);
 
-  // Mede a altura do header para posicionar o dropdown em fixed (Solutions / Who We Serve)
   useEffect(() => {
     if (!navRef.current) return;
     const el = navRef.current;
@@ -51,7 +50,6 @@ export function Header() {
     return () => ro.disconnect();
   }, []);
 
-  // Fade-in only on open (no transition on close)
   useEffect(() => {
     if (openDropdown) {
       setIsDropdownFadedIn(false);
@@ -202,7 +200,6 @@ export function Header() {
           />,
           document.body
         )}
-      {/* Mega-menus (Solutions, Who We Serve): fixed na viewport, faixa inteira clara = espaço lateral visível */}
       {openDropdown &&
         (openDropdown === "solutions" || openDropdown === "whoWeServe") &&
         typeof document !== "undefined" &&
@@ -220,7 +217,6 @@ export function Header() {
           </div>,
           document.body
         )}
-      {/* Demais menus: absoluto dentro do nav */}
       {openDropdown &&
         openDropdown !== "solutions" &&
         openDropdown !== "whoWeServe" && (

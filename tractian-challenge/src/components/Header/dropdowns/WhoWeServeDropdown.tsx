@@ -73,7 +73,6 @@ export function WhoWeServeDropdown({
       : []),
   ];
 
-  // PT: setores de pt.json. EN: só as 7 do código (Automotive, Mining, Chemical, Mills, Food&Beverage, Manufacturing, Oil&Gas). ES/outros: lista completa.
   const bySectorLinks =
     locale === "pt"
       ? [

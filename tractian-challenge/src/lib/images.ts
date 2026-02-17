@@ -1,14 +1,7 @@
-// ============================================================
-// Remote image URLs — served via imgix / S3 CDN
-// ============================================================
-
 const IMGIX = "https://imgix.tractian.com";
 const S3 = "https://tractian-webpage.s3.us-east-1.amazonaws.com";
-
-// Shared imgix params for auto-format, compress, and quality
 const IX = "auto=format,compress&cs=origin&fit=max&q=75";
 
-// ---- Hero ----
 export const heroImages = {
   desktopEN: `${S3}/website/pages/who-we-serve/plant-manager/en/plant-manager-header-image.png`,
   mobileEN: `${S3}/website/pages/who-we-serve/plant-manager/en/plant-manager-header-image-mobile.png`,
@@ -18,14 +11,12 @@ export const heroImages = {
   mobileES: `${S3}/website/pages/who-we-serve/plant-manager/pt/header-image-mobile.png`,
 };
 
-// ---- Company navbar (dropdown cards) ----
 export const companyNavbarImages = {
   about: `${IMGIX}/website/components/navbar/general/about.png?${IX}&w=1080`,
   careers: `${IMGIX}/website/components/navbar/general/careers.png?${IX}&w=1080`,
   newsroom: `${IMGIX}/website/components/navbar/general/newsroom.png?${IX}&w=1080`,
 };
 
-// ---- Why Choose (feature image) ----
 export const whyChooseImages = {
   proveRoi: `${IMGIX}/website/pages/who-we-serve/plant-manager/en/prove-the-roi.png?${IX}&w=3840`,
   getAheadOfDowntime: `${IMGIX}/website/pages/who-we-serve/plant-manager/en/get-ahead.png?${IX}&w=3840`,
@@ -33,7 +24,6 @@ export const whyChooseImages = {
   keepAuditsSimpleComplianceCovered: `${IMGIX}/website/pages/who-we-serve/plant-manager/en/keeps-audit-simple.png?${IX}&w=3840`,
 };
 
-// ---- Reports / Tabs ----
 export const reportsImages = {
   reportsForScalability: `${IMGIX}/website/pages/who-we-serve/plant-manager/en/reports-for-scalability.png?${IX}&w=3840`,
   operationalOversight: `${IMGIX}/website/pages/who-we-serve/plant-manager/en/operational-oversight.png?${IX}&w=3840`,
@@ -41,7 +31,6 @@ export const reportsImages = {
   noLaborGaps: `${IMGIX}/website/pages/who-we-serve/plant-manager/en/no-labor-gaps.png?${IX}&w=3840`,
 };
 
-// ---- Testimonials (avatars) ----
 export const testimonialAvatars = {
   paul: `${IMGIX}/website/pages/who-we-serve/plant-manager/en/paul-v2.png?${IX}&w=256`,
   nicholas: `${IMGIX}/website/pages/who-we-serve/plant-manager/en/nicholas.png?${IX}&w=256`,
@@ -49,7 +38,6 @@ export const testimonialAvatars = {
   andy: `${IMGIX}/website/pages/who-we-serve/plant-manager/en/andy.png?${IX}&w=256`,
 };
 
-// ---- Company Logos (carousel) ----
 export const companyLogos = [
   {
     name: "Georgia Aquarium",
@@ -125,7 +113,6 @@ export const companyLogos = [
   },
 ];
 
-// ---- Company Logos BR (pt / es – Brasil e América Latina) ----
 export const companyLogosBR = [
   { name: "Danone", src: `${IMGIX}/website/components/company-logos/danone.png?${IX}&w=640`, width: 140, height: 40 },
   { name: "EMS", src: `${IMGIX}/website/components/company-logos/ems.png?${IX}&w=640`, width: 140, height: 40 },
@@ -141,7 +128,6 @@ export const companyLogosBR = [
   { name: "Atvos", src: `${IMGIX}/website/components/company-logos/atvos.png?${IX}&w=640`, width: 140, height: 40 },
 ];
 
-// ---- Company Logos ES (Espanha / es) ----
 export const companyLogosES = [
   { name: "P&G", src: `${IMGIX}/website/components/company-logos/p&g.png?${IX}&w=640`, width: 140, height: 40 },
   { name: "Unilever", src: `${IMGIX}/website/components/company-logos/unilever.png?${IX}&w=640`, width: 140, height: 40 },
@@ -157,12 +143,10 @@ export const companyLogosES = [
   { name: "Grupo México", src: `${IMGIX}/website/components/company-logos/grupoMexico.png?${IX}&w=640`, width: 140, height: 40 },
 ];
 
-// ---- CTA Background ----
 export const ctaImages = {
   moreThanMachines: `${S3}/website/pages/who-we-serve/maintenance-engineer/en/more-than-machines.png`,
 };
 
-// ---- Footer Badges ----
 export const footerBadges = [
   {
     name: "Front Runners",
@@ -214,7 +198,6 @@ export const footerBadges = [
   },
 ];
 
-// ---- SVG Icons (local, from public/images/svgs/) ----
 export const icons = {
   tractianLogo: "/images/svgs/tractian-logo.svg",
   chevronDown: "/images/svgs/chevron-down.svg",

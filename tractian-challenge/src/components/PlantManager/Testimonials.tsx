@@ -4,7 +4,6 @@ import { useState } from "react";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 
-/* ─── Quote icon (blue quotation marks, currentColor = text-blue-600) ─── */
 function QuoteIcon() {
   return (
     <svg
@@ -30,7 +29,6 @@ function QuoteIcon() {
   );
 }
 
-/* ─── G2 badge (decorative, brand colors) ─── */
 function G2Badge() {
   return (
     <svg
@@ -58,7 +56,6 @@ function G2Badge() {
   );
 }
 
-/* ─── Testimonial data ─── */
 const TESTIMONIALS = [
   { quoteKey: "testimonial1Quote" as const, nameKey: "testimonial1Name" as const, roleKey: "testimonial1Role" as const, companyKey: "testimonial1Company" as const, imageKey: "testimonial1Image" as const },
   { quoteKey: "testimonial2Quote" as const, nameKey: "testimonial2Name" as const, roleKey: "testimonial2Role" as const, companyKey: "testimonial2Company" as const, imageKey: "testimonial2Image" as const },
@@ -66,7 +63,6 @@ const TESTIMONIALS = [
   { quoteKey: "testimonial4Quote" as const, nameKey: "testimonial4Name" as const, roleKey: "testimonial4Role" as const, companyKey: "testimonial4Company" as const, imageKey: "testimonial4Image" as const },
 ] as const;
 
-/* ─── Single testimonial card ─── */
 function TestimonialCard({
   testimonial,
   index,
@@ -82,18 +78,15 @@ function TestimonialCard({
 
   return (
     <div className="flex h-auto w-full flex-col gap-4">
-      {/* Quote icon + optional badge (en: 2ª pessoa, es: 1ª, pt: nenhum) */}
       <div className="flex w-full items-center gap-4">
         <QuoteIcon />
         {showG2Badge && <G2Badge />}
       </div>
 
-      {/* Quote text */}
       <p className="h-full text-slate-500 text-quote italic text-[14px] leading-[1.6]">
         {t(quoteKey)}
       </p>
 
-      {/* Person */}
       <div className="flex items-center gap-3 lg:justify-between">
         <figure className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full lg:h-14 lg:w-14">
           <Image
@@ -116,7 +109,6 @@ function TestimonialCard({
   );
 }
 
-/* ─── Mobile carousel bar indicator ─── */
 function CarouselBar({
   active,
   onClick,
@@ -140,7 +132,6 @@ function CarouselBar({
   );
 }
 
-/* ─── Main component ─── */
 export function Testimonials() {
   const t = useTranslations("plantManager");
   const [activeSlide, setActiveSlide] = useState(0);
@@ -148,19 +139,16 @@ export function Testimonials() {
   return (
     <section className="w-full bg-white py-12 sm:px-4 lg:py-16 xl:px-0">
       <div className="mx-auto flex w-full max-w-2xl flex-col items-center gap-8 md:gap-12 lg:max-w-6xl">
-        {/* Title */}
         <h2 className="px-4 text-left font-heading text-[1.25rem] font-bold leading-[1.75rem] text-slate-700 sm:px-0 lg:text-center lg:text-[32px] lg:leading-[40px]">
           {t("testimonialsTitle")}
         </h2>
 
-        {/* Desktop grid (sm+) */}
         <div className="hidden h-auto w-full items-stretch gap-8 sm:grid sm:grid-cols-2 lg:flex lg:flex-row lg:justify-between lg:gap-12">
           {TESTIMONIALS.map((testimonial, idx) => (
             <TestimonialCard key={testimonial.nameKey} testimonial={testimonial} index={idx} />
           ))}
         </div>
 
-        {/* Mobile carousel (<sm) */}
         <div className="flex w-full flex-col items-center gap-8 sm:hidden">
           <div className="w-full overflow-hidden px-4">
             <div
@@ -178,7 +166,6 @@ export function Testimonials() {
             </div>
           </div>
 
-          {/* Pagination bars */}
           <div className="flex items-center justify-center gap-1.5">
             {TESTIMONIALS.map((testimonial, idx) => (
               <CarouselBar

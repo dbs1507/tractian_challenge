@@ -116,7 +116,6 @@ export function DemoModal({
             className="flex w-full flex-col gap-y-3"
             onSubmit={(e) => e.preventDefault()}
           >
-            {/* Honeypot */}
             <div className="pointer-events-none absolute -top-[9999px] opacity-0">
               <input
                 autoComplete="off"

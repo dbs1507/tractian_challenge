@@ -13,10 +13,8 @@ export function CTASection() {
       className="w-full bg-cover bg-right bg-no-repeat 2xl:min-h-[475px] 3xl:min-h-[525px] 4xl:min-h-[560px]"
       style={{ backgroundImage: `url('${ctaImages.moreThanMachines}')` }}
     >
-      {/* Dark overlay — full width on mobile, 50% on md+ */}
       <div className="relative z-10 flex w-full max-w-full justify-center bg-blue-950/95 px-4 py-12 md:max-w-[50%] md:justify-end md:bg-blue-950/80 lg:px-12 lg:py-16 xl:px-0 xl:py-20 xl:pl-16 2xl:min-h-[475px] 2xl:items-center 2xl:pl-16 3xl:min-h-[525px] 3xl:pl-12 4xl:min-h-[560px]">
         <div className="flex w-full max-w-full flex-col items-center gap-8 md:max-w-[318px] md:items-start lg:max-w-full xl:max-w-[576px]">
-          {/* Heading */}
           <article className="relative z-20 flex w-full flex-col items-center gap-4 md:items-start">
             <h2 className="text-center font-heading text-[24px] font-bold leading-[32px] text-white md:text-left lg:text-[40px] lg:leading-[52px]">
               {t("ctaTitle")}
@@ -25,7 +23,6 @@ export function CTASection() {
             </h2>
           </article>
 
-          {/* Button */}
           <button
             type="button"
             onClick={openDemoModal}

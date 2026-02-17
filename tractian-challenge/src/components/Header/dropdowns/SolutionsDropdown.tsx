@@ -124,7 +124,6 @@ export function SolutionsDropdown({
   if (variant === "mobile") {
     return (
       <div className="flex flex-col gap-6 py-4">
-        {/* Tractian Condition Monitoring */}
         <div className="flex flex-col gap-1">
           <MobileSectionLink
             href="/who-we-serve/plant-manager"
@@ -141,7 +140,6 @@ export function SolutionsDropdown({
           </div>
         </div>
 
-        {/* Tractian CMMS */}
         <div className="flex flex-col gap-1">
           <MobileSectionLink
             href="/solutions/cmms"
@@ -158,7 +156,6 @@ export function SolutionsDropdown({
           </div>
         </div>
 
-        {/* Tractian OEE */}
         <div className="flex flex-col gap-1">
           <MobileSectionLink
             href="/solutions/oee"

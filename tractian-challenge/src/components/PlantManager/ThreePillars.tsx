@@ -2,8 +2,6 @@
 
 import { useLocale, useTranslations } from "next-intl";
 
-/* ─── Pillar SVG Icons (currentColor = text-blue-600 from parent) ─── */
-
 function BuiltForWholePlantIcon({ className }: { className?: string }) {
   return (
     <svg
@@ -74,8 +72,6 @@ function WhiteGloveSupportIcon({ className }: { className?: string }) {
   );
 }
 
-/* ─── Pillar Data ─── */
-
 const PILLARS = [
   {
     titleKey: "pillar1Title" as const,
@@ -93,8 +89,6 @@ const PILLARS = [
     Icon: WhiteGloveSupportIcon,
   },
 ] as const;
-
-/* ─── Component ─── */
 
 export function ThreePillars() {
   const locale = useLocale();
@@ -120,12 +114,10 @@ export function ThreePillars() {
               key={titleKey}
               className="flex w-full flex-row items-start gap-4 lg:flex-col lg:items-center"
             >
-              {/* Icon */}
               <figure className="flex shrink-0 items-center justify-center rounded-sm bg-white p-[14px] lg:h-24 lg:w-24 lg:p-0">
                 <Icon className="h-8 w-8 text-blue-600 sm:h-9 sm:w-9 md:h-10 md:w-10 lg:h-12 lg:w-12" />
               </figure>
 
-              {/* Text */}
               <article className="flex w-full flex-col sm:gap-1 lg:items-center lg:gap-4">
                 <h3 className="text-left font-heading text-base font-bold leading-6 text-slate-700 lg:text-center lg:text-xl lg:leading-7">
                   {t(titleKey)}

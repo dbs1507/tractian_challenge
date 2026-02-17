@@ -21,7 +21,6 @@ export function ProcessSteps() {
             {t("processStepsTagline")}
           </p>
         ) : null}
-        {/* Title */}
         <h2 className="text-left font-heading text-[1.25rem] font-bold leading-[2rem] text-slate-700 lg:mb-4 lg:text-center lg:text-[32px] lg:leading-[40px]">
           {locale === "es" ? (
             <>
@@ -33,16 +32,13 @@ export function ProcessSteps() {
           )}
         </h2>
 
-        {/* Steps */}
         <ol className="flex w-full list-none flex-col gap-8 lg:flex-row lg:justify-between lg:gap-12 xl:gap-16">
           {STEPS.map(({ num, titleKey, descKey }) => (
             <li key={num} className="flex h-full w-full flex-col gap-4">
-              {/* Step number badge */}
               <span className="flex h-7 w-7 items-center justify-center rounded-[2px] bg-blue-600 text-[20px] max-lg:text-[14px] leading-[24px] text-white lg:h-8 lg:w-8 font-medium" aria-hidden>
                 {num}
               </span>
 
-              {/* Content */}
               <article className="flex w-full flex-col gap-1 lg:gap-4">
                 <h3 className="font-heading text-[20px] font-bold leading-[24px] text-slate-700 lg:leading-[28px]">
                   {t(titleKey)}

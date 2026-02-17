@@ -65,7 +65,6 @@ const localeFlags: Record<string, string> = {
   es: "🇪🇸",
 };
 
-/** Ordem de exibição: português, inglês, espanhol */
 const localeOrder: string[] = ["pt", "en", "es"];
 
 type LanguageSwitcherProps = {
@@ -88,7 +87,6 @@ export function LanguageSwitcher({ variant = "desktop" }: LanguageSwitcherProps)
     setIsOpen(false);
   }
 
-  // Atualiza posição do dropdown ao abrir (para portal)
   useEffect(() => {
     if (!isOpen || !triggerRef.current) {
       setPosition(null);
@@ -109,7 +107,6 @@ export function LanguageSwitcher({ variant = "desktop" }: LanguageSwitcherProps)
     };
   }, [isOpen]);
 
-  // Close on outside click (inclui o dropdown portado)
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       const target = e.target as Node;
@@ -191,7 +188,6 @@ export function LanguageSwitcher({ variant = "desktop" }: LanguageSwitcherProps)
         />
       </button>
 
-      {/* Dropdown em portal (z-[9999]) para ficar acima dos menus do header */}
       {isOpen &&
         position &&
         typeof document !== "undefined" &&

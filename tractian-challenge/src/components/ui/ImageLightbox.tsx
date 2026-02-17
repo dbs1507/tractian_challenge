@@ -3,8 +3,6 @@
 import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 
-/* ─────────────────────── SVG Icons ─────────────────────── */
-
 function ZoomInIcon({ className }: { className?: string }) {
   return (
     <svg
@@ -62,8 +60,6 @@ function CloseIcon({ className }: { className?: string }) {
   );
 }
 
-/* ─────────────── Zoom-in hover trigger (for the thumbnail) ─────────────── */
-
 export function ZoomableFigure({
   src,
   alt,
@@ -98,8 +94,6 @@ export function ZoomableFigure({
   );
 }
 
-/* ─────────────────────── Lightbox Modal ─────────────────────── */
-
 const ZOOM_STEP = 0.25;
 const MIN_ZOOM = 0.5;
 const MAX_ZOOM = 3;
@@ -127,7 +121,6 @@ export function ImageLightbox({
     setZoom(1);
   }, []);
 
-  // Keyboard shortcuts: ESC close, +/- zoom
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       switch (e.key) {
@@ -154,7 +147,6 @@ export function ImageLightbox({
     };
   }, [onClose, handleZoomIn, handleZoomOut, handleResetZoom]);
 
-  // Scroll wheel zoom
   useEffect(() => {
     const handler = (e: WheelEvent) => {
       e.preventDefault();
@@ -176,12 +168,10 @@ export function ImageLightbox({
       aria-label={alt}
       onClick={onClose}
     >
-      {/* Modal card */}
       <div
         className="relative mx-4 flex h-[90vh] w-full max-w-[900px] flex-col overflow-hidden rounded-xl bg-white shadow-2xl lg:max-w-[1100px] xl:max-w-[1300px]"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Toolbar */}
         <div className="absolute right-3 top-3 z-10 flex items-center gap-1">
           <button
             type="button"
@@ -211,7 +201,6 @@ export function ImageLightbox({
           </button>
         </div>
 
-        {/* Image container */}
         <div className="flex flex-1 items-center justify-center overflow-auto px-3 pb-3 pt-10">
           <div
             className="flex h-full w-full items-center justify-center transition-transform duration-200 ease-out"
@@ -229,7 +218,6 @@ export function ImageLightbox({
           </div>
         </div>
 
-        {/* Zoom indicator */}
         {zoom !== 1 && (
           <div className="absolute bottom-3 left-1/2 -translate-x-1/2 rounded-full bg-slate-800/70 px-3 py-1 text-xs text-white">
             {Math.round(zoom * 100)}%

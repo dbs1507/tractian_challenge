@@ -112,7 +112,6 @@ export function ResourcesDropdown({
   const t = useTranslations("header");
   const locale = useLocale();
 
-  // Em PT só exibimos os itens que existem em pt.json (sem calculators, sops; com pops)
   const resourcesCenterLinks =
     locale === "pt"
       ? [

@@ -66,10 +66,8 @@ export function WhyChoose() {
   const [fading, setFading] = useState(false);
   const [autoplay, setAutoplay] = useState(true);
 
-  // Busca a tab ativa para exibição - fallback pro primeiro se não encontrar
   const activeTab = TABS.find((tab) => tab.id === displayId) ?? TABS[0];
 
-  // Fade transition: when activeId changes, fade out → swap content → fade in
   useEffect(() => {
     if (activeId === displayId) return;
     setFading(true);
@@ -80,7 +78,6 @@ export function WhyChoose() {
     return () => clearTimeout(timeout);
   }, [activeId, displayId]);
 
-  // Autoplay carousel: cycles through tabs, stops on user click
   useEffect(() => {
     if (!autoplay) return;
     const timer = setInterval(() => {
@@ -93,7 +90,6 @@ export function WhyChoose() {
     return () => clearInterval(timer);
   }, [autoplay]);
 
-  // User manually selects a tab → stop autoplay
   const handleTabClick = useCallback((tabId: string) => {
     setAutoplay(false);
     setActiveId(tabId);
@@ -105,7 +101,6 @@ export function WhyChoose() {
       style={{ overflowAnchor: "none" }}
     >
       <div className="mx-auto flex w-full max-w-2xl flex-col gap-8 lg:max-w-6xl lg:gap-16">
-        {/* Header */}
         <article className="flex w-full flex-col gap-4">
           <p className="uppercase text-blue-600 text-[16px] leading-[22px] max-md:text-[12px] max-md:leading-5">
             {t("whyChooseTagline")}
@@ -115,9 +110,7 @@ export function WhyChoose() {
           </h2>
         </article>
 
-        {/* Tabs + Image */}
         <div className="flex w-full flex-col gap-9 lg:min-h-[360px] lg:flex-row lg:items-start lg:justify-between">
-          {/* Accordion tabs */}
           <div className="flex w-full flex-col border-l-2 border-slate-300 lg:w-1/2 lg:gap-3 lg:self-start">
             {TABS.map((tab) => {
               const isActive = activeId === tab.id;
@@ -164,7 +157,6 @@ export function WhyChoose() {
             })}
           </div>
 
-          {/* Imagem dinâmica com fade */}
           <figure className={`relative h-[280px] w-full overflow-hidden rounded-lg transition-opacity duration-300 ease-in-out lg:h-[320px] lg:w-1/2 ${fading ? "opacity-0" : "opacity-100"}`}>
             <Image
               src={whyChooseImages[activeTab.imageKey]}
