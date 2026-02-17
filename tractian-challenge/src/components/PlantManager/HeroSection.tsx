@@ -55,6 +55,7 @@ export function HeroSection() {
             >
               {t("heroButton")}
               <svg
+                aria-hidden
                 fill="none"
                 height="16"
                 viewBox="0 0 16 16"
@@ -73,7 +74,7 @@ export function HeroSection() {
         <div className="relative h-[340px] w-full max-w-[430px] md:hidden">
           <Image
             src={mobileHero}
-            alt=""
+            alt={t("heroImageAlt")}
             width={430}
             height={340}
             className="h-full w-full object-cover object-top"

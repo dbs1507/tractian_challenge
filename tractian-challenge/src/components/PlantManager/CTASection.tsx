@@ -2,9 +2,11 @@
 
 import { useTranslations } from "next-intl";
 import { ctaImages } from "@/lib/images";
+import { useDemoModal } from "@/contexts/DemoModalContext";
 
 export function CTASection() {
   const t = useTranslations("plantManager");
+  const { openDemoModal } = useDemoModal();
 
   return (
     <section
@@ -26,7 +28,8 @@ export function CTASection() {
           {/* Button */}
           <button
             type="button"
-            className="relative z-30 mx-auto max-w-fit rounded-sm bg-blue-600 px-4 py-2 text-center text-[14px] font-medium leading-[22px] text-white transition duration-150 ease-in-out hover:bg-blue-900 active:bg-blue-950 md:mx-0 lg:text-[16px] lg:leading-[24px]"
+            onClick={openDemoModal}
+            className="relative z-30 mx-auto max-w-fit rounded-sm bg-blue-600 px-4 py-2 text-center text-[14px] font-medium leading-[22px] text-white transition duration-150 ease-in-out hover:bg-blue-900 active:bg-blue-950 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-blue-950 md:mx-0 lg:text-[16px] lg:leading-[24px]"
           >
             {t("ctaButton")}
           </button>

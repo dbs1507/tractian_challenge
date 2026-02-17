@@ -54,7 +54,7 @@ export function MobileMenu({ onOpenDemo }: { onOpenDemo?: () => void } = {}) {
         <button
           className="flex h-10 w-10 items-center justify-center"
           type="button"
-          aria-label={isOpen ? "Close Menu" : "Open Menu"}
+          aria-label={isOpen ? tc("closeMenu") : tc("openMenu")}
           onClick={() => setIsOpen(!isOpen)}
         >
           {isOpen ? (
@@ -116,7 +116,7 @@ export function MobileMenu({ onOpenDemo }: { onOpenDemo?: () => void } = {}) {
             </Link>
             <button
               type="button"
-              aria-label="Close Menu"
+              aria-label={tc("closeMenu")}
               className="flex h-10 w-10 items-center justify-center text-slate-600"
               onClick={() => setIsOpen(false)}
             >
@@ -131,7 +131,8 @@ export function MobileMenu({ onOpenDemo }: { onOpenDemo?: () => void } = {}) {
             {navSections.map((section) => (
               <div key={section.id} className="w-full">
                 <button
-                  aria-label={`Open ${section.id}`}
+                  aria-label={t(section.labelKey)}
+              aria-expanded={openAccordion === section.id}
                   className="flex w-full items-center justify-between px-4 py-[13.2px] hover:brightness-125"
                   onClick={() => toggleAccordion(section.id)}
                 >

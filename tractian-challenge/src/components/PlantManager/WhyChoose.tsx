@@ -5,7 +5,8 @@ import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { whyChooseImages } from "@/lib/images";
 
-const AUTOPLAY_INTERVAL = 5000;
+const AUTOPLAY_INTERVAL_MS = 5000;
+const FADE_DURATION_MS = 300;
 
 const TABS = [
   {
@@ -34,7 +35,7 @@ const TABS = [
   },
 ] as const;
 
-function CheckIcon({ active }: { active: boolean }) {
+function CheckIcon() {
   return (
     <svg
       fill="none"
@@ -42,6 +43,7 @@ function CheckIcon({ active }: { active: boolean }) {
       viewBox="0 0 25 25"
       width="18"
       xmlns="http://www.w3.org/2000/svg"
+      aria-hidden
     >
       <path
         d="M2.02344 11.5L10.0234 19.5M2.02344 11.5L10.0234 19.5"
@@ -74,7 +76,7 @@ export function WhyChoose() {
     const timeout = setTimeout(() => {
       setDisplayId(activeId);
       setFading(false);
-    }, 300);
+    }, FADE_DURATION_MS);
     return () => clearTimeout(timeout);
   }, [activeId, displayId]);
 
@@ -87,7 +89,7 @@ export function WhyChoose() {
         const nextIdx = (currentIdx + 1) % TABS.length;
         return TABS[nextIdx].id;
       });
-    }, AUTOPLAY_INTERVAL);
+    }, AUTOPLAY_INTERVAL_MS);
     return () => clearInterval(timer);
   }, [autoplay]);
 
@@ -136,7 +138,7 @@ export function WhyChoose() {
                         isActive ? "bg-blue-600" : "bg-slate-400"
                       }`}
                     >
-                      <CheckIcon active={isActive} />
+                      <CheckIcon />
                     </figure>
                     <h3
                       className={`font-sans flex-1 text-body-md font-medium leading-snug transition-colors md:font-heading md:text-body-md lg:text-xl lg:font-semibold lg:leading-7 ${

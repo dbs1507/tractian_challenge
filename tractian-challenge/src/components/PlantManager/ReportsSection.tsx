@@ -32,7 +32,8 @@ const TABS = [
   },
 ] as const;
 
-const AUTOPLAY_INTERVAL = 12000;
+const AUTOPLAY_INTERVAL_MS = 12000;
+const FADE_DURATION_MS = 300;
 
 export function ReportsSection() {
   const t = useTranslations("plantManager");
@@ -54,11 +55,11 @@ export function ReportsSection() {
     const timeout = setTimeout(() => {
       setDisplayId(activeId);
       setFading(false);
-    }, 300);
+    }, FADE_DURATION_MS);
     return () => clearTimeout(timeout);
   }, [activeId, displayId]);
 
-  // Autoplay carousel: cycles through tabs every 5s, stops on user click
+  // Autoplay: cycle tabs periodically, stop on user click
   useEffect(() => {
     if (!autoplay) return;
     const timer = setInterval(() => {
@@ -67,7 +68,7 @@ export function ReportsSection() {
         const nextIdx = (currentIdx + 1) % TABS.length;
         return TABS[nextIdx].id;
       });
-    }, AUTOPLAY_INTERVAL);
+    }, AUTOPLAY_INTERVAL_MS);
     return () => clearInterval(timer);
   }, [autoplay]);
 
@@ -120,7 +121,8 @@ export function ReportsSection() {
             {/* Tab bar */}
             <div
               ref={tabBarRef}
-              className="relative mx-auto mt-2 flex w-full flex-col bg-[#F4F4F9] py-1 sm:flex-row sm:bg-transparent sm:py-0 lg:mt-0"
+              role="tablist"
+              className="relative mx-auto mt-2 flex w-full flex-col bg-slate-100 py-1 sm:flex-row sm:bg-transparent sm:py-0 lg:mt-0"
             >
               {TABS.map((tab, idx) => {
                 const isActive = activeId === tab.id;
@@ -132,12 +134,13 @@ export function ReportsSection() {
                     }}
                     className={`relative col-span-1 flex w-full items-center justify-center border-b px-1 pb-[3px] pt-1 sm:px-0 sm:py-0 ${
                       isActive
-                        ? "rounded-md border-transparent bg-[#F4F4F9] sm:rounded-none sm:border-b-blue-600 sm:bg-transparent xl:border-b-slate-300"
-                        : "border-transparent bg-[#F4F4F9] transition-all duration-100 sm:border-b-slate-300 sm:bg-transparent sm:bg-white sm:duration-300 lg:hover:bg-transparent"
+                        ? "rounded-md border-transparent bg-slate-100 sm:rounded-none sm:border-b-blue-600 sm:bg-transparent xl:border-b-slate-300"
+                        : "border-transparent bg-slate-100 transition-all duration-100 sm:border-b-slate-300 sm:bg-transparent sm:bg-white sm:duration-300 lg:hover:bg-transparent"
                     }`}
                   >
                     <button
                       type="button"
+                      role="tab"
                       onClick={() => handleTabClick(tab.id)}
                       aria-label={t(tab.titleKey)}
                       aria-selected={isActive}

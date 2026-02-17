@@ -5,7 +5,7 @@ import { Accordion, type AccordionItem } from "@/components/ui/Accordion";
 
 const FAQ_COUNT = 18;
 
-const FAQ1_LINK_PATH: Record<string, string> = {
+const FAQ1_LINK_PATH: Record<"en" | "es" | "pt", string> = {
   en: "/en/solutions/condition-monitoring/smart-trac",
   es: "/es/soluciones/monitoreo-condicion/smart-trac",
   pt: "/pt/solucoes/monitoramento-de-condicao/smart-trac",
@@ -14,7 +14,8 @@ const FAQ1_LINK_PATH: Record<string, string> = {
 export function FAQ() {
   const locale = useLocale();
   const t = useTranslations("plantManager");
-  const faq1Href = FAQ1_LINK_PATH[locale] ?? `/${locale}/soluciones/monitoreo-condicion/smart-trac`;
+  const faq1Href =
+    (FAQ1_LINK_PATH as Record<string, string>)[locale] ?? FAQ1_LINK_PATH.en;
 
   const items: AccordionItem[] = Array.from({ length: FAQ_COUNT }, (_, i) => {
     const num = i + 1;

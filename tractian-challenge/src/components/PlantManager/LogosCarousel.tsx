@@ -4,6 +4,8 @@ import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { companyLogos, companyLogosBR, companyLogosES } from "@/lib/images";
 
+const DEFAULT_LOGO_MAX_WIDTH = 100;
+
 /* ─── Max-widths por logo (EN) ─── */
 const LOGO_MAX_WIDTHS_EN: Record<string, number> = {
   "Georgia Aquarium": 70,
@@ -52,21 +54,19 @@ const LOGO_MAX_WIDTHS_ES: Record<string, number> = {
   "Grupo México": 146,
 };
 
+const LOCALE_LOGOS: Record<
+  string,
+  { logos: { name: string; src: string; width: number; height: number }[]; maxWidths: Record<string, number> }
+> = {
+  en: { logos: companyLogos, maxWidths: LOGO_MAX_WIDTHS_EN },
+  es: { logos: companyLogosES, maxWidths: LOGO_MAX_WIDTHS_ES },
+  pt: { logos: companyLogosBR, maxWidths: LOGO_MAX_WIDTHS_BR },
+};
+
 export function LogosCarousel() {
   const t = useTranslations("plantManager");
   const locale = useLocale();
-  const logos =
-    locale === "en"
-      ? companyLogos
-      : locale === "es"
-        ? companyLogosES
-        : companyLogosBR;
-  const maxWidths =
-    locale === "en"
-      ? LOGO_MAX_WIDTHS_EN
-      : locale === "es"
-        ? LOGO_MAX_WIDTHS_ES
-        : LOGO_MAX_WIDTHS_BR;
+  const { logos, maxWidths } = LOCALE_LOGOS[locale] ?? LOCALE_LOGOS.pt;
 
   return (
     <section className="w-full px-0 pt-4 lg:px-4 lg:pb-16">
@@ -78,9 +78,9 @@ export function LogosCarousel() {
 
         {/* ── Mobile: infinite scroll carousel (<lg) ── */}
         <div className="relative w-full overflow-hidden lg:hidden">
-          {/* Fade edges */}
-          <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-[75px] bg-gradient-to-r from-white to-transparent sm:w-[200px]" />
-          <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-[75px] bg-gradient-to-l from-white to-transparent sm:w-[200px]" />
+          {/* Fade edges (decorative) */}
+          <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-[75px] bg-gradient-to-r from-white to-transparent sm:w-[200px]" aria-hidden />
+          <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-[75px] bg-gradient-to-l from-white to-transparent sm:w-[200px]" aria-hidden />
 
           <div className="flex h-20 animate-scroll items-center gap-8">
             {[...logos, ...logos, ...logos].map((logo, i) => (
@@ -88,7 +88,7 @@ export function LogosCarousel() {
                 key={`${logo.name}-${i}`}
                 className="flex shrink-0 items-center justify-center"
                 style={{
-                  maxWidth: maxWidths[logo.name] ?? 100,
+                  maxWidth: maxWidths[logo.name] ?? DEFAULT_LOGO_MAX_WIDTH,
                 }}
               >
                 <Image
@@ -96,6 +96,7 @@ export function LogosCarousel() {
                   alt={`${logo.name} logo`}
                   width={logo.width}
                   height={logo.height}
+                  sizes="120px"
                   className="pointer-events-none h-auto w-full select-none object-contain scale-[0.7]"
                   loading="lazy"
                 />
@@ -114,7 +115,7 @@ export function LogosCarousel() {
               <div
                 className="inline-flex"
                 style={{
-                  maxWidth: maxWidths[logo.name] ?? 100,
+                  maxWidth: maxWidths[logo.name] ?? DEFAULT_LOGO_MAX_WIDTH,
                 }}
               >
                 <Image
@@ -122,6 +123,7 @@ export function LogosCarousel() {
                   alt={`${logo.name} logo`}
                   width={logo.width}
                   height={logo.height}
+                  sizes="(min-width: 1024px) 180px, 120px"
                   className="h-auto w-full object-contain"
                   loading="lazy"
                 />

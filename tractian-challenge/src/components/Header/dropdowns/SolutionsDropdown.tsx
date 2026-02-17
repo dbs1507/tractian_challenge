@@ -39,7 +39,7 @@ function SolutionSubLink({
 }) {
   return (
     <Link
-      href="/who-we-serve/plant-manager"
+      href={href as Parameters<typeof Link>[0]["href"]}
       className="group flex w-full items-center gap-2"
       onClick={onClose}
     >
@@ -70,7 +70,7 @@ function MobileSectionLink({
 }) {
   return (
     <Link
-      href="/who-we-serve/plant-manager"
+      href={href as Parameters<typeof Link>[0]["href"]}
       className="group flex w-full items-center gap-3 py-2"
       onClick={onClose}
     >
@@ -97,7 +97,7 @@ function MobileSubLink({
 }) {
   return (
     <Link
-      href="/who-we-serve/plant-manager"
+      href={href as Parameters<typeof Link>[0]["href"]}
       className="group flex w-full items-start gap-2 py-2 "
       onClick={onClose}
     >

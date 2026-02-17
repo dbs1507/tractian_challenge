@@ -18,6 +18,7 @@ function ChevronDownIcon({ className }: { className?: string }) {
       viewBox="0 0 22 13"
       fill="none"
       className={className}
+      aria-hidden
     >
       <path
         fillRule="evenodd"
@@ -161,7 +162,7 @@ export function Header() {
               rel="noopener noreferrer"
               className="hidden font-medium text-slate-500 text-body-md transition-colors hover:text-blue-600 xl:block"
             >
-              Login
+              {tc("login")}
             </a>
             <button
               type="button"

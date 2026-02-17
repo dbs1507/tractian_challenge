@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 
-/* ─── Quote icon (blue quotation marks) ─── */
+/* ─── Quote icon (blue quotation marks, currentColor = text-blue-600) ─── */
 function QuoteIcon() {
   return (
     <svg
@@ -14,22 +14,23 @@ function QuoteIcon() {
       width="32"
       xmlns="http://www.w3.org/2000/svg"
       className="h-8 w-8 text-blue-600"
+      aria-hidden
     >
       <path
         d="M28.667 4C24.2487 4 20.667 7.58172 20.667 12H18.0003C18.0003 6.10896 22.776 1.33333 28.667 1.33333V4Z"
-        fill="#2563EB"
+        fill="currentColor"
       />
-      <path d="M30 30.6667H18V12.0001H30V30.6667Z" fill="#2563EB" />
+      <path d="M30 30.6667H18V12.0001H30V30.6667Z" fill="currentColor" />
       <path
         d="M12.667 4C8.24871 4 4.66699 7.58172 4.66699 12H2.00033C2.00033 6.10896 6.77595 1.33333 12.667 1.33333V4Z"
-        fill="#2563EB"
+        fill="currentColor"
       />
-      <path d="M14 30.6667H2V12.0001H14V30.6667Z" fill="#2563EB" />
+      <path d="M14 30.6667H2V12.0001H14V30.6667Z" fill="currentColor" />
     </svg>
   );
 }
 
-/* ─── G2 badge (Nicholas D. has it) ─── */
+/* ─── G2 badge (decorative, brand colors) ─── */
 function G2Badge() {
   return (
     <svg
@@ -38,6 +39,7 @@ function G2Badge() {
       viewBox="0 0 24 24"
       width="24"
       xmlns="http://www.w3.org/2000/svg"
+      aria-hidden
     >
       <rect fill="#FF492C" height="24" rx="11.6" width="23.2" />
       <path
@@ -99,6 +101,7 @@ function TestimonialCard({
             alt={t(nameKey)}
             width={120}
             height={120}
+            sizes="96px"
             className="h-full w-full rounded-full object-cover"
             loading="lazy"
           />
@@ -117,15 +120,17 @@ function TestimonialCard({
 function CarouselBar({
   active,
   onClick,
+  ariaLabel,
 }: {
   active: boolean;
   onClick: () => void;
+  ariaLabel: string;
 }) {
   return (
     <button
       type="button"
       onClick={onClick}
-      aria-label="Go to slide"
+      aria-label={ariaLabel}
       className={`shrink-0 transition-colors ${
         active
           ? "h-[2.6px] w-14 rounded-sm bg-blue-600"
@@ -180,6 +185,7 @@ export function Testimonials() {
                 key={testimonial.nameKey}
                 active={idx === activeSlide}
                 onClick={() => setActiveSlide(idx)}
+                ariaLabel={t("carouselGoToSlide", { index: idx + 1 })}
               />
             ))}
           </div>

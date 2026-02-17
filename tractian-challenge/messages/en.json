@@ -8,7 +8,11 @@
     "getStarted": "Get Started",
     "contactUs": "Contact Us",
     "getDemo": "Get Demo",
-    "login": "Login"
+    "login": "Login",
+    "openMenu": "Open Menu",
+    "closeMenu": "Close Menu",
+    "switchLanguage": "Switch language",
+    "language": "Language"
   },
   "demoModal": {
     "title": "Request Your Demo",
@@ -159,6 +163,7 @@
   },
   "plantManager": {
     "heroTagline": "KEEP OPERATIONS RUNNING. HIT YOUR TARGETS.",
+    "heroImageAlt": "Plant manager using Tractian dashboard on tablet",
     "heroTitle": "For the Plant Manager Who Wants to Lead with Confidence",
     "heroDesc": "Make smarter decisions, faster. Tractian gives you clarity, control, and confidence - so you can lead the plant and prove the ROI.",
     "heroButton": "Get a Demo",
@@ -214,6 +219,7 @@
     "pillar3Title": "White-glove support",
     "pillar3Desc": "Our expert team works shoulder-to-shoulder with you, from install to scale-up. With hands-on support, we\u2019re on site when it matters - helping you train teams, fine-tune setups, and hit your goals faster.",
     "testimonialsTitle": "Hear it from the people who use it every day",
+    "carouselGoToSlide": "Go to slide {index}",
     "testimonial1Quote": "With everything centralized within Tractian platform, we finally have the visibility to act fast, plan smarter, and show real results.",
     "testimonial1Name": "Paul M.",
     "testimonial1Role": "Maintenance Director",
@@ -235,6 +241,7 @@
     "testimonial4Company": "Lyka",
     "testimonial4Image": "https://imgix.tractian.com/website/pages/who-we-serve/plant-manager/en/andy.png?auto=format,compress&cs=origin&fit=max&q=75&w=256",
     "logosSubtitle": "Trusted by hundreds of leaders from U.S. and global manufacturers",
+    "processStepsTagline": "",
     "processStepsTitle": "From first call to full rollout - we\u2019ve got you covered",
     "step1Title": "We\u2019ll get to know your plant",
     "step1Desc": "Schedule a quick call so we can understand your processes, challenges, and team structure. We\u2019ll walk you through how Tractian fits into your day-to-day and highlight where you\u2019ll see the fastest wins and ROI.",

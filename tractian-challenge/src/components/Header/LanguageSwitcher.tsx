@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { createPortal } from "react-dom";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useRouter, usePathname } from "@/i18n/routing";
 import { routing } from "@/i18n/routing";
 
@@ -13,6 +13,7 @@ function GlobeIcon({ className, id }: { className?: string; id: string }) {
       viewBox="0 0 20 20"
       fill="none"
       className={className}
+      aria-hidden
     >
       <g clipPath={`url(#${id})`}>
         <path
@@ -40,6 +41,7 @@ function ChevronDownIcon({ className }: { className?: string }) {
       viewBox="0 0 22 13"
       fill="none"
       className={className}
+      aria-hidden
     >
       <path
         fillRule="evenodd"
@@ -72,6 +74,7 @@ type LanguageSwitcherProps = {
 
 export function LanguageSwitcher({ variant = "desktop" }: LanguageSwitcherProps) {
   const locale = useLocale();
+  const tc = useTranslations("common");
   const router = useRouter();
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
@@ -149,7 +152,7 @@ export function LanguageSwitcher({ variant = "desktop" }: LanguageSwitcherProps)
           style={{ maxHeight: isOpen ? "200px" : "0" }}
         >
           <div className="flex flex-col gap-0.5 pt-2">
-            {localeOrder.filter((loc) => routing.locales.includes(loc as any)).map((loc) => (
+            {localeOrder.filter((loc) => (routing.locales as readonly string[]).includes(loc)).map((loc) => (
               <button
                 key={loc}
                 type="button"
@@ -196,11 +199,11 @@ export function LanguageSwitcher({ variant = "desktop" }: LanguageSwitcherProps)
           <div
             ref={dropdownRef}
             role="menu"
-            aria-label="Idioma"
+            aria-label={tc("language")}
             className="fixed flex min-w-[200px] flex-col items-stretch rounded-xs border border-slate-300 bg-slate-50 p-2 text-slate-500 text-body-sm shadow-lg transition-all duration-200 ease-out lg:border-2 xl:text-body-md"
             style={{ top: position.top, left: position.left, zIndex: 9999 }}
           >
-            {localeOrder.filter((loc) => routing.locales.includes(loc as any)).map((loc) => (
+            {localeOrder.filter((loc) => (routing.locales as readonly string[]).includes(loc)).map((loc) => (
               <button
                 key={loc}
                 type="button"

@@ -16,13 +16,14 @@ export function ProcessSteps() {
   return (
     <section className="bg-slate-100 px-4 py-6 lg:py-16">
       <div className="mx-auto flex w-full max-w-2xl flex-col items-start gap-8 lg:max-w-6xl lg:items-center lg:gap-12">
-        {
-          locale === 'pt'? (<p className="text-left uppercase text-blue-600 text-body-md lg:text-center">PASSO A PASSO</p>
-          ): (<div/>)
-        }         
+        {t("processStepsTagline") ? (
+          <p className="text-left uppercase text-blue-600 text-body-md lg:text-center">
+            {t("processStepsTagline")}
+          </p>
+        ) : null}
         {/* Title */}
         <h2 className="text-left font-heading text-[1.25rem] font-bold leading-[2rem] text-slate-700 lg:mb-4 lg:text-center lg:text-[32px] lg:leading-[40px]">
-          {locale === "es" ? (  
+          {locale === "es" ? (
             <>
               <span className="block">{t("processStepsTitle1")}</span>
               <span className="block">{t("processStepsTitle2")}</span>
@@ -33,11 +34,11 @@ export function ProcessSteps() {
         </h2>
 
         {/* Steps */}
-        <div className="flex w-full flex-col gap-8 lg:flex-row lg:justify-between lg:gap-12 xl:gap-16">
+        <ol className="flex w-full list-none flex-col gap-8 lg:flex-row lg:justify-between lg:gap-12 xl:gap-16">
           {STEPS.map(({ num, titleKey, descKey }) => (
-            <div key={num} className="flex h-full w-full flex-col gap-4">
+            <li key={num} className="flex h-full w-full flex-col gap-4">
               {/* Step number badge */}
-              <span className="flex h-7 w-7 items-center justify-center rounded-[2px] bg-blue-600 text-[20px] leading-[24px] text-white lg:h-8 lg:w-8 font-medium">
+              <span className="flex h-7 w-7 items-center justify-center rounded-[2px] bg-blue-600 text-[20px] max-lg:text-[14px] leading-[24px] text-white lg:h-8 lg:w-8 font-medium" aria-hidden>
                 {num}
               </span>
 
@@ -50,9 +51,9 @@ export function ProcessSteps() {
                   {t(descKey)}
                 </p>
               </article>
-            </div>
+            </li>
           ))}
-        </div>
+        </ol>
       </div>
     </section>
   );

@@ -164,20 +164,20 @@ export function CompanyDropdown({
       label: t("aboutUs"),
       href: "/about",
       imageSrc: companyNavbarImages.about,
-      imageAlt: "About Us",
+      imageAlt: t("aboutUs"),
     },
     {
       label: t("careers"),
       href: "https://careers.tractian.com/",
       imageSrc: companyNavbarImages.careers,
-      imageAlt: "Careers",
+      imageAlt: t("careers"),
       external: true,
     },
     {
       label: t("newsroom"),
       href: "/press",
       imageSrc: companyNavbarImages.newsroom,
-      imageAlt: "Newsroom",
+      imageAlt: t("newsroom"),
     },
   ];
 

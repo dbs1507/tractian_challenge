@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Tractian – Frontend Challenge
 
-## Getting Started
+Landing page **multi-idioma** (EN, PT, ES) da persona **Gerente de Planta**, desenvolvida com Next.js (App Router) e next-intl.
 
-First, run the development server:
+---
+
+## Stack
+
+- **Next.js 16** (App Router)
+- **React 19**
+- **TypeScript**
+- **Tailwind CSS 4**
+- **next-intl** (i18n com rotas localizadas)
+- **React Hook Form + Zod** (formulário da demo)
+- **next/image** para imagens (imgix, S3)
+
+---
+
+## Como rodar
 
 ```bash
+# Instalar dependências
+npm install
+
+# Desenvolvimento
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Acesse [http://localhost:3000](http://localhost:3000). A raiz redireciona para a página do Gerente de Planta no locale padrão (PT).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+# Build de produção
+npm run build
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# Rodar em produção
+npm start
+```
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## Estrutura principal
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+src/
+├── app/
+│   ├── layout.tsx          # Layout raiz (html, fontes, metadados)
+│   ├── page.tsx            # Redirect para locale padrão
+│   └── [locale]/
+│       ├── layout.tsx      # Provider i18n + DemoModal
+│       ├── page.tsx        # Home → redirect plant-manager
+│       ├── loading.tsx / error.tsx / not-found.tsx
+│       └── who-we-serve/plant-manager/
+│           └── page.tsx    # Página Gerente de Planta
+├── components/             # Header, Footer, PlantManager, Modal, UI
+├── contexts/               # DemoModalContext
+├── i18n/                   # routing.ts, request.ts (next-intl)
+├── lib/                    # utils, images
+└── messages/               # en.json, pt.json, es.json
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## i18n
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Locales:** EN, PT (padrão), ES  
+- **URLs localizadas:** ex. PT `/solucoes-para-gerentes-industriais`, EN `/who-we-serve/plant-manager`  
+- **Navegação:** `Link` e `redirect` de `@/i18n/routing` em todo o app  
+- **Traduções:** namespaces por área (header, footer, plantManager, demoModal, common)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
