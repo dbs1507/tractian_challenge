@@ -105,7 +105,7 @@ export function WhyChoose() {
       <div className="mx-auto flex w-full max-w-2xl flex-col gap-8 lg:max-w-6xl lg:gap-16">
         {/* Header */}
         <article className="flex w-full flex-col gap-4">
-          <p className="uppercase text-blue-600 text-[14px] leading-[22px] max-md:text-[12px] max-md:leading-5">
+          <p className="uppercase text-blue-600 text-[16px] leading-[22px] max-md:text-[12px] max-md:leading-5">
             {t("whyChooseTagline")}
           </p>
           <h2 className="font-heading text-[24px] font-bold leading-[32px] text-slate-700 lg:text-[40px] lg:leading-[52px]">
@@ -116,14 +116,14 @@ export function WhyChoose() {
         {/* Tabs + Image */}
         <div className="flex w-full flex-col gap-9 lg:min-h-[360px] lg:flex-row lg:items-start lg:justify-between">
           {/* Accordion tabs */}
-          <div className="flex w-full flex-col border-l-2 border-slate-300 lg:w-1/2 lg:gap-5 lg:self-start">
+          <div className="flex w-full flex-col border-l-2 border-slate-300 lg:w-1/2 lg:gap-3 lg:self-start">
             {TABS.map((tab) => {
               const isActive = activeId === tab.id;
               return (
                 <button
                   key={tab.id}
                   type="button"
-                  className={`group -ml-[2px] flex w-full flex-col items-start border-l-2 bg-transparent px-4 text-left transition-colors ${
+                  className={`group -ml-[2px] w-full h-full items-start border-l-2 bg-transparent px-4 text-left transition-colors ${
                     isActive ? "border-blue-500" : "border-transparent"
                   }`}
                   onClick={() => handleTabClick(tab.id)}

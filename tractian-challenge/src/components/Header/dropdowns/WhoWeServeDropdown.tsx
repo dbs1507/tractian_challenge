@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/routing";
 import {
   IconPerson,
@@ -14,6 +14,7 @@ import {
   IconMillsAgriculture,
   IconMining,
   IconOilGas,
+  IconPaper,
 } from "../icons";
 import { MenuIconFigure, SolutionMenuArrow } from "./shared";
 
@@ -47,7 +48,7 @@ function MobileNavLink({
     );
   }
   return (
-    <Link href={href} className={className} onClick={onClose}>
+    <Link href={href as any} className={className} onClick={onClose}>
       {content}
     </Link>
   );
@@ -60,27 +61,51 @@ export function WhoWeServeDropdown({
   onClose: () => void;
   variant?: "desktop" | "mobile";
 }) {
+  const locale = useLocale();
   const t = useTranslations("header");
 
   const byRoleLinks = [
     { label: t("plantManager"), href: "/who-we-serve/plant-manager" },
     { label: t("reliabilityEngineer"), href: "/who-we-serve/reliability-engineer" },
     { label: t("maintenanceEngineer"), href: "/who-we-serve/maintenance-engineer" },
-    { label: t("manufacturingEngineer"), href: "/who-we-serve/manufacturing-engineer" },
+    ...(locale === "en"
+      ? [{ label: t("manufacturingEngineer"), href: "/who-we-serve/manufacturing-engineer" }]
+      : []),
   ];
 
-  const bySectorLinks = [
-    { label: t("industryAutomotive"), href: "/industry/automotive", icon: <IconAutomotive /> },
-    { label: t("industryChemical"), href: "/industry/chemical", icon: <IconChemical /> },
-    { label: t("industryFacilities"), href: "/industry/facilities-maintenance-software", icon: <IconFacilities /> },
-    { label: t("industryFleet"), href: "/industry/fleet-maintenance-software", icon: <IconFleet /> },
-    { label: t("industryFoodBeverage"), href: "/industry/food-and-beverage", icon: <IconFoodBeverage /> },
-    { label: t("industryHeavyEquipment"), href: "/industry/heavy-equipment-maintenance-software", icon: <IconHeavyEquipment /> },
-    { label: t("industryManufacturing"), href: "/industry/manufacturing-maintenance-software", icon: <IconManufacturing /> },
-    { label: t("industryMillsAgriculture"), href: "/industry/mills-and-agriculture", icon: <IconMillsAgriculture /> },
-    { label: t("industryMining"), href: "/industry/mining-sector", icon: <IconMining /> },
-    { label: t("industryOilGas"), href: "/industry/oil-gas-maintenance-software", icon: <IconOilGas /> },
-  ];
+  // PT: setores de pt.json. EN: só as 7 do código (Automotive, Mining, Chemical, Mills, Food&Beverage, Manufacturing, Oil&Gas). ES/outros: lista completa.
+  const bySectorLinks =
+    locale === "pt"
+      ? [
+          { label: t("industryAutomotive"), href: "/industry/automotive", icon: <IconAutomotive /> },
+          { label: t("industryChemical"), href: "/industry/chemical", icon: <IconChemical /> },
+          { label: t("industryFoodBeverage"), href: "/industry/food-and-beverage", icon: <IconFoodBeverage /> },
+          { label: t("industryMillsAgriculture"), href: "/industry/mills-and-agriculture", icon: <IconMillsAgriculture /> },
+          { label: t("industryMining"), href: "/industry/mining-sector", icon: <IconMining /> },
+          { label: t("industryPaper"), href: "/industry/paper-and-cellulose", icon: <IconPaper /> },
+        ]
+      : locale === "es"
+        ? [
+            { label: t("industryAutomotive"), href: "/industry/automotive", icon: <IconAutomotive /> },
+            { label: t("industryMining"), href: "/industry/mining-sector", icon: <IconMining /> },
+            { label: t("industryChemical"), href: "/industry/chemical", icon: <IconChemical /> },
+            { label: t("industryMillsAgriculture"), href: "/industry/mills-and-agriculture", icon: <IconMillsAgriculture /> },
+            { label: t("industryFoodBeverage"), href: "/industry/food-and-beverage", icon: <IconFoodBeverage /> },
+            { label: t("industryManufacturing"), href: "/industry/manufacturing-maintenance-software", icon: <IconManufacturing /> },
+            { label: t("industryOilGas"), href: "/industry/oil-gas-maintenance-software", icon: <IconOilGas /> },
+          ]
+        : [
+            { label: t("industryAutomotive"), href: "/industry/automotive", icon: <IconAutomotive /> },
+            { label: t("industryChemical"), href: "/industry/chemical", icon: <IconChemical /> },
+            { label: t("industryFacilities"), href: "/industry/facilities-maintenance-software", icon: <IconFacilities /> },
+            { label: t("industryFleet"), href: "/industry/fleet-maintenance-software", icon: <IconFleet /> },
+            { label: t("industryFoodBeverage"), href: "/industry/food-and-beverage", icon: <IconFoodBeverage /> },
+            { label: t("industryHeavyEquipment"), href: "/industry/heavy-equipment-maintenance-software", icon: <IconHeavyEquipment /> },
+            { label: t("industryManufacturing"), href: "/industry/manufacturing-maintenance-software", icon: <IconManufacturing /> },
+            { label: t("industryMillsAgriculture"), href: "/industry/mills-and-agriculture", icon: <IconMillsAgriculture /> },
+            { label: t("industryMining"), href: "/industry/mining-sector", icon: <IconMining /> },
+            { label: t("industryOilGas"), href: "/industry/oil-gas-maintenance-software", icon: <IconOilGas /> },
+          ];
 
   if (variant === "mobile") {
     return (
@@ -113,7 +138,7 @@ export function WhoWeServeDropdown({
           {byRoleLinks.map((link) => (
             <Link
               key={link.href}
-              href={link.href}
+              href={link.href as any}
               className="group flex w-full items-center gap-2"
               onClick={onClose}
             >
@@ -139,7 +164,7 @@ export function WhoWeServeDropdown({
           {bySectorLinks.map((link) => (
             <Link
               key={link.href}
-              href={link.href}
+              href={link.href as any}
               className="group flex w-full items-center gap-2"
               onClick={onClose}
             >

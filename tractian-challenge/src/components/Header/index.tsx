@@ -34,8 +34,21 @@ export function Header() {
   const tc = useTranslations("common");
   const [openDropdown, setOpenDropdown] = useState<DropdownId>(null);
   const [isDropdownFadedIn, setIsDropdownFadedIn] = useState(false);
+  const [headerHeight, setHeaderHeight] = useState(72);
   const { openDemoModal } = useDemoModal();
   const navRef = useRef<HTMLElement>(null);
+  const megaMenuRef = useRef<HTMLDivElement>(null);
+
+  // Mede a altura do header para posicionar o dropdown em fixed (Solutions / Who We Serve)
+  useEffect(() => {
+    if (!navRef.current) return;
+    const el = navRef.current;
+    const measure = () => setHeaderHeight(el.getBoundingClientRect().height);
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
 
   // Fade-in only on open (no transition on close)
   useEffect(() => {
@@ -58,9 +71,10 @@ export function Header() {
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
-      if (navRef.current && !navRef.current.contains(e.target as Node)) {
-        setOpenDropdown(null);
-      }
+      const target = e.target as Node;
+      const inNav = navRef.current?.contains(target);
+      const inMegaMenu = megaMenuRef.current?.contains(target);
+      if (!inNav && !inMegaMenu) setOpenDropdown(null);
     }
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
@@ -91,7 +105,7 @@ export function Header() {
         <div className="hidden h-full w-full items-center justify-between lg:flex">
           <section className="flex items-center gap-x-4">
             <figure className="fill-blue-600">
-              <Link href="/" aria-label="Tractian Logo">
+              <Link href="/who-we-serve/plant-manager" aria-label="Tractian Logo">
                 <Image
                   src={icons.tractianLogo}
                   alt="Tractian"
@@ -160,7 +174,7 @@ export function Header() {
         </div>
 
         <div className="flex w-full items-center justify-between lg:hidden">
-          <Link href="/" aria-label="Tractian Home">
+          <Link href="/who-we-serve/plant-manager" aria-label="Tractian Home">
             <Image
               src={icons.tractianLogo}
               alt="Tractian"
@@ -187,21 +201,38 @@ export function Header() {
           />,
           document.body
         )}
-      {openDropdown && (
-        <div
-          className={`absolute inset-x-0 top-full z-50 hidden transition-opacity duration-300 ease-in-out lg:block ${
-            isDropdownFadedIn ? "opacity-100" : "opacity-0"
-          }`}
-        >
+      {/* Mega-menus (Solutions, Who We Serve): fixed na viewport, faixa inteira clara = espaço lateral visível */}
+      {openDropdown &&
+        (openDropdown === "solutions" || openDropdown === "whoWeServe") &&
+        typeof document !== "undefined" &&
+        createPortal(
           <div
-            className={`relative z-30 mx-auto w-full px-8 pb-12 pt-8 bg-slate-50 shadow-lg ${
-              openDropdown === "resources" || openDropdown === "company" || openDropdown === "pricing" ? "max-w-[970px]" : "max-w-7xl"
+            ref={megaMenuRef}
+            className={`fixed left-0 right-0 z-50 hidden min-h-[280px] bg-slate-50 px-2 shadow-lg transition-opacity duration-300 ease-in-out lg:block lg:px-2 ${
+              isDropdownFadedIn ? "opacity-100" : "opacity-0"
+            }`}
+            style={{ top: headerHeight }}
+          >
+            <div className="relative z-30 mx-auto w-full max-w-7xl px-8 pb-12 pt-8">
+              <DropdownContent id={openDropdown} onClose={closeDropdown} />
+            </div>
+          </div>,
+          document.body
+        )}
+      {/* Demais menus: absoluto dentro do nav */}
+      {openDropdown &&
+        openDropdown !== "solutions" &&
+        openDropdown !== "whoWeServe" && (
+          <div
+            className={`absolute inset-x-0 top-full z-50 hidden transition-opacity duration-300 ease-in-out lg:block lg:px-2 ${
+              isDropdownFadedIn ? "opacity-100" : "opacity-0"
             }`}
           >
-            <DropdownContent id={openDropdown} onClose={closeDropdown} />
+            <div className="relative z-30 mx-auto w-full max-w-[970px] px-8 pb-12 pt-8 bg-slate-50 shadow-lg">
+              <DropdownContent id={openDropdown} onClose={closeDropdown} />
+            </div>
           </div>
-        </div>
-      )}
+        )}
     </nav>
   );
 }

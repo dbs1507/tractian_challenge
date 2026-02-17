@@ -142,3 +142,14 @@ export function IconOilGas() {
     </svg>
   );
 }
+
+export function IconPaper() {
+  return (
+    <svg fill="none" height="20" viewBox="0 0 20 20" width="20" className={iconClass} stroke="currentColor" strokeWidth="0.75">
+      <path d="M14.1667 2.5H5.83333C4.91286 2.5 4.16667 3.24619 4.16667 4.16667V15.8333C4.16667 16.7538 4.91286 17.5 5.83333 17.5H14.1667C15.0871 17.5 15.8333 16.7538 15.8333 15.8333V4.16667C15.8333 3.24619 15.0871 2.5 14.1667 2.5Z" strokeMiterlimit="10" />
+      <path d="M4.16667 7.5H15.8333" strokeMiterlimit="10" />
+      <path d="M4.16667 10.8333H15.8333" strokeMiterlimit="10" />
+      <path d="M4.16667 14.1667H11.6667" strokeMiterlimit="10" />
+    </svg>
+  );
+}

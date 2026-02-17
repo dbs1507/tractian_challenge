@@ -15,6 +15,7 @@ import {
   IconAiFailure,
 } from "../icons";
 import { MenuIconFigure, SolutionMenuArrow } from "./shared";
+import { useLocale } from "next-intl";
 
 function ResourceLink({
   href,
@@ -59,7 +60,7 @@ function ResourceLink({
   }
 
   return (
-    <Link href={href} className={className} onClick={onClose}>
+    <Link href={href as any} className={className} onClick={onClose}>
       {content}
     </Link>
   );
@@ -95,7 +96,7 @@ function MobileResourceLink({
     );
   }
   return (
-    <Link href={href} className={className} onClick={onClose}>
+    <Link href={href as any} className={className} onClick={onClose}>
       {content}
     </Link>
   );
@@ -109,17 +110,38 @@ export function ResourcesDropdown({
   variant?: "desktop" | "mobile";
 }) {
   const t = useTranslations("header");
+  const locale = useLocale();
 
-  const resourcesCenterLinks = [
-    { label: t("caseStudies"), href: "/case-studies", icon: <IconCaseStudies /> },
-    { label: t("ebooks"), href: "/resources", icon: <IconEbooks /> },
-    { label: t("blog"), href: "/blog", icon: <IconBlog /> },
-    { label: t("templates"), href: "/resources", icon: <IconTemplates /> },
-    { label: t("calculators"), href: "/resources/calculators/maintenance-calculators", icon: <IconCalculators /> },
-    { label: t("eventsWebinars"), href: "/events/hub", icon: <IconEvents /> },
-    { label: t("sops"), href: "/assets", icon: <IconTroubleshooting /> },
-    { label: t("chatgptPlugins"), href: "/resources/ai-agents", icon: <IconAiFailure /> },
-  ];
+  // Em PT só exibimos os itens que existem em pt.json (sem calculators, sops; com pops)
+  const resourcesCenterLinks =
+    locale === "pt"
+      ? [
+          { label: t("caseStudies"), href: "/case-studies", icon: <IconCaseStudies /> },
+          { label: t("ebooks"), href: "/resources", icon: <IconEbooks /> },
+          { label: t("blog"), href: "/blog", icon: <IconBlog /> },
+          { label: t("templates"), href: "/resources", icon: <IconTemplates /> },
+          { label: t("eventsWebinars"), href: "/events/hub", icon: <IconEvents /> },
+          { label: t("pops"), href: "/assets", icon: <IconTroubleshooting /> },
+          { label: t("chatgptPlugins"), href: "/resources/ai-agents", icon: <IconAiFailure /> },
+        ]
+      : locale === "es"
+        ? [
+            { label: t("caseStudies"), href: "/case-studies", icon: <IconCaseStudies /> },
+            { label: t("ebooks"), href: "/resources", icon: <IconEbooks /> },
+            { label: t("blog"), href: "/blog", icon: <IconBlog /> },
+            { label: t("templates"), href: "/resources", icon: <IconTemplates /> },
+            { label: t("eventsWebinars"), href: "/events/hub", icon: <IconEvents /> },
+          ]
+      : [
+          { label: t("caseStudies"), href: "/case-studies", icon: <IconCaseStudies /> },
+          { label: t("ebooks"), href: "/resources", icon: <IconEbooks /> },
+          { label: t("blog"), href: "/blog", icon: <IconBlog /> },
+          { label: t("templates"), href: "/resources", icon: <IconTemplates /> },
+          { label: t("calculators"), href: "/resources/calculators/maintenance-calculators", icon: <IconCalculators /> },
+          { label: t("eventsWebinars"), href: "/events/hub", icon: <IconEvents /> },
+          { label: t("sops"), href: "/assets", icon: <IconTroubleshooting /> },
+          { label: t("chatgptPlugins"), href: "/resources/ai-agents", icon: <IconAiFailure /> },
+        ];
 
   const customerHubLinks = [
     { label: t("productUpdates"), href: "https://releases.tractian.com/", icon: <IconEvents />, external: true },

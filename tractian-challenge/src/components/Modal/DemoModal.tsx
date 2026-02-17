@@ -3,6 +3,10 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { useTranslations } from "next-intl";
 import { CustomSelect } from "./CustomSelect";
+import { JOB_OPTIONS, INDUSTRY_OPTIONS, getSolutionOptions } from "./demoFormOptions";
+
+import PhoneInput from 'react-phone-number-input';
+import 'react-phone-number-input/style.css';
 
 const ASSET_OPTIONS = [
   "assetLess25",
@@ -14,22 +18,22 @@ const ASSET_OPTIONS = [
 ] as const;
 
 const inputClass =
-  "rounded-sm p-3 text-body-md outline ring-0 w-full placeholder:text-slate-500 text-slate-700 bg-white outline-1 outline-slate-400 hover:outline-slate-700 focus:outline-2 focus:outline-blue-600 disabled:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-70";
+"rounded-sm p-3 text-body-md outline ring-0 w-full placeholder:text-slate-500 text-slate-700 bg-white outline-1 outline-slate-400 hover:outline-slate-700 focus:outline-2 focus:outline-blue-600 disabled:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-70";
 
 function CloseIcon({ className }: { className?: string }) {
   return (
     <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className={className}
-      aria-hidden
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+    aria-hidden
     >
       <path d="M18 6 6 18M6 6l12 12" />
     </svg>
@@ -48,35 +52,10 @@ export function DemoModal({
   const [jobTitle, setJobTitle] = useState("");
   const [industrySector, setIndustrySector] = useState("");
   const [solutionOfInterest, setSolutionOfInterest] = useState("");
-
-  const jobOptions = useMemo(
-    () => [
-      { value: "plant-manager", label: t("jobOptionPlantManager") },
-      { value: "maintenance", label: t("jobOptionMaintenance") },
-      { value: "reliability", label: t("jobOptionReliability") },
-      { value: "other", label: t("jobOptionOther") },
-    ],
-    [t]
-  );
-  const industryOptions = useMemo(
-    () => [
-      { value: "automotive", label: t("industryOptionAutomotive") },
-      { value: "chemical", label: t("industryOptionChemical") },
-      { value: "manufacturing", label: t("industryOptionManufacturing") },
-      { value: "mining", label: t("industryOptionMining") },
-      { value: "other", label: t("industryOptionOther") },
-    ],
-    [t]
-  );
-  const solutionOptions = useMemo(
-    () => [
-      { value: "condition-monitoring", label: t("solutionOptionCM") },
-      { value: "cmms", label: t("solutionOptionCMMS") },
-      { value: "oee", label: t("solutionOptionOEE") },
-    ],
-    [t]
-  );
-
+  const [phoneNumber, setPhoneNumber] = useState('');
+  
+  const solutionOptions = useMemo(() => getSolutionOptions(t), [t]);
+  
   const handleEscape = useCallback(
     (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -96,6 +75,7 @@ export function DemoModal({
   }, [isOpen, handleEscape]);
 
   if (!isOpen) return null;
+
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
@@ -171,24 +151,19 @@ export function DemoModal({
 
             <section className="flex w-full flex-col gap-3 sm:flex-row sm:gap-4">
               <fieldset className="default-fieldset flex min-w-0 flex-1 flex-col gap-2 font-sans">
-                <div className="relative flex rounded-sm outline outline-1 outline-slate-400 hover:outline-slate-700 focus-within:outline-2 focus-within:outline-blue-600">
-                  <select
-                    name="countryCode"
-                    aria-label="Country"
-                    className="rounded-l-sm border-0 bg-white px-3 py-3 text-body-md text-slate-700 outline-none"
-                  >
-                    <option value="+55">🇧🇷 +55</option>
-                    <option value="+1">🇺🇸 +1</option>
-                    <option value="+44">🇬🇧 +44</option>
-                    <option value="+34">🇪🇸 +34</option>
-                    <option value="+49">🇩🇪 +49</option>
-                    <option value="+33">🇫🇷 +33</option>
-                  </select>
-                  <input
-                    type="tel"
-                    name="phone"
-                    placeholder="+55"
-                    className={`flex-1 min-w-0 rounded-r-sm border-0 border-l border-slate-200 bg-white px-3 py-3 text-body-md outline-none placeholder:text-slate-500 focus:ring-0 ${inputClass}`}
+                <div className="relative flex w-full rounded-sm outline outline-1 outline-slate-400 transition-[outline-width,outline-color] hover:outline-slate-700 focus-within:outline-2 focus-within:outline-blue-600">
+                  <PhoneInput
+                    international
+                    defaultCountry="BR"
+                    placeholder={t("phoneNumber")}
+                    value={phoneNumber}
+                    onChange={(value) => setPhoneNumber(value ?? "")}
+                    className="w-full"
+                    numberInputProps={{
+                      name: "phone",
+                      "aria-label": t("phoneNumber"),
+                      className: "!border-0 !ring-0",
+                    }}
                   />
                 </div>
               </fieldset>
@@ -198,25 +173,25 @@ export function DemoModal({
                   value={jobTitle}
                   onChange={setJobTitle}
                   placeholder={t("jobTitle")}
-                  options={jobOptions}
+                  options={JOB_OPTIONS}
                   aria-label={t("jobTitle")}
                 />
               </div>
             </section>
 
-            <div className="relative mx-auto flex w-full flex-col gap-2">
+            <div className="relative mx-auto flex w-full flex-col gap-2 font-sans">
               <CustomSelect
                 name="industrySector"
                 value={industrySector}
                 onChange={setIndustrySector}
                 placeholder={t("industrySector")}
-                options={industryOptions}
+                options={INDUSTRY_OPTIONS}
                 aria-label={t("industrySector")}
               />
             </div>
 
             <fieldset className="flex w-full flex-col gap-2" data-cid="select-input">
-              <div className="relative">
+              <div className="relative font-sans">
                 <CustomSelect
                   name="solutionOfInterest"
                   value={solutionOfInterest}

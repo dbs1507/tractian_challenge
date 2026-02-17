@@ -104,7 +104,7 @@ export function MobileMenu({ onOpenDemo }: { onOpenDemo?: () => void } = {}) {
         <div className="flex flex-col">
           {/* Header: logo + fechar */}
           <header className="flex shrink-0 items-center justify-between px-4 py-2 bg-slate-100">
-            <Link href="/" aria-label="Tractian Home" onClick={() => setIsOpen(false)}>
+            <Link href="/who-we-serve/plant-manager" aria-label="Tractian Home" onClick={() => setIsOpen(false)}>
               <Image
                 src={icons.tractianLogo}
                 alt="Tractian"

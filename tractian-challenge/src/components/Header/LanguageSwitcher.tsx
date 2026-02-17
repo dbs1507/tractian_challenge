@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { useLocale } from "next-intl";
 import { useRouter, usePathname } from "@/i18n/routing";
 import { routing } from "@/i18n/routing";
@@ -51,8 +52,8 @@ function ChevronDownIcon({ className }: { className?: string }) {
 }
 
 const localeLabels: Record<string, string> = {
-  en: "English (United States)",
   pt: "Português (Brasil)",
+  en: "English (United States)",
   es: "Español (México)",
 };
 
@@ -62,11 +63,8 @@ const localeFlags: Record<string, string> = {
   es: "🇪🇸",
 };
 
-const localeShort: Record<string, string> = {
-  en: "EN",
-  pt: "PT",
-  es: "ES",
-};
+/** Ordem de exibição: português, inglês, espanhol */
+const localeOrder: string[] = ["pt", "en", "es"];
 
 type LanguageSwitcherProps = {
   variant?: "desktop" | "mobile";
@@ -77,19 +75,44 @@ export function LanguageSwitcher({ variant = "desktop" }: LanguageSwitcherProps)
   const router = useRouter();
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
+  const [position, setPosition] = useState<{ top: number; left: number } | null>(null);
   const ref = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   function handleChange(newLocale: string) {
     router.replace(pathname, { locale: newLocale });
     setIsOpen(false);
   }
 
-  // Close on outside click
+  // Atualiza posição do dropdown ao abrir (para portal)
+  useEffect(() => {
+    if (!isOpen || !triggerRef.current) {
+      setPosition(null);
+      return;
+    }
+    const updatePosition = () => {
+      if (triggerRef.current) {
+        const rect = triggerRef.current.getBoundingClientRect();
+        setPosition({ top: rect.bottom + 4, left: rect.left });
+      }
+    };
+    updatePosition();
+    window.addEventListener("scroll", updatePosition, true);
+    window.addEventListener("resize", updatePosition);
+    return () => {
+      window.removeEventListener("scroll", updatePosition, true);
+      window.removeEventListener("resize", updatePosition);
+    };
+  }, [isOpen]);
+
+  // Close on outside click (inclui o dropdown portado)
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
-      if (ref.current && !ref.current.contains(e.target as Node)) {
-        setIsOpen(false);
-      }
+      const target = e.target as Node;
+      const inTrigger = ref.current?.contains(target);
+      const inDropdown = dropdownRef.current?.contains(target);
+      if (!inTrigger && !inDropdown) setIsOpen(false);
     }
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
@@ -126,15 +149,13 @@ export function LanguageSwitcher({ variant = "desktop" }: LanguageSwitcherProps)
           style={{ maxHeight: isOpen ? "200px" : "0" }}
         >
           <div className="flex flex-col gap-0.5 pt-2">
-            {routing.locales.map((loc) => (
+            {localeOrder.filter((loc) => routing.locales.includes(loc as any)).map((loc) => (
               <button
                 key={loc}
                 type="button"
                 onClick={() => handleChange(loc)}
-                className={`flex w-full items-center gap-3 rounded-sm px-2 py-2.5 text-left text-sm transition-colors ${
-                  locale === loc
-                    ? "bg-slate-100 font-medium text-blue-600"
-                    : "text-slate-600 hover:bg-slate-50 hover:text-blue-600"
+                className={`flex w-full items-center gap-3 rounded-sm px-2 py-2.5 text-left text-sm text-slate-600 transition-colors hover:bg-slate-100 ${
+                  locale === loc ? "bg-slate-100" : ""
                 }`}
               >
                 <span className="text-base leading-none" aria-hidden>
@@ -152,7 +173,10 @@ export function LanguageSwitcher({ variant = "desktop" }: LanguageSwitcherProps)
   return (
     <div ref={ref} className="relative">
       <button
+        ref={triggerRef}
+        type="button"
         aria-label="Switch Language"
+        aria-expanded={isOpen}
         className="group flex items-center gap-x-2 rounded-sm px-2 py-1 text-slate-500 transition-colors focus:outline-none hover:text-blue-600"
         onClick={() => setIsOpen(!isOpen)}
       >
@@ -164,28 +188,34 @@ export function LanguageSwitcher({ variant = "desktop" }: LanguageSwitcherProps)
         />
       </button>
 
-      {/* Dropdown */}
-      {isOpen && (
-        <div className="absolute right-0 top-full z-50 mt-2 min-w-[200px] rounded-lg bg-white py-2 shadow-lg">
-          {routing.locales.map((loc) => (
-            <button
-              key={loc}
-              type="button"
-              onClick={() => handleChange(loc)}
-              className={`flex w-full items-center gap-3 px-4 py-2 text-left text-sm transition-colors hover:bg-slate-50 ${
-                locale === loc
-                  ? "font-medium text-blue-600"
-                  : "text-slate-600"
-              }`}
-            >
-              <span className="w-6 text-xs font-semibold text-slate-400">
-                {localeShort[loc]}
-              </span>
-              {localeLabels[loc]}
-            </button>
-          ))}
-        </div>
-      )}
+      {/* Dropdown em portal (z-[9999]) para ficar acima dos menus do header */}
+      {isOpen &&
+        position &&
+        typeof document !== "undefined" &&
+        createPortal(
+          <div
+            ref={dropdownRef}
+            role="menu"
+            aria-label="Idioma"
+            className="fixed flex min-w-[200px] flex-col items-stretch rounded-xs border border-slate-300 bg-slate-50 p-2 text-slate-500 text-body-sm shadow-lg transition-all duration-200 ease-out lg:border-2 xl:text-body-md"
+            style={{ top: position.top, left: position.left, zIndex: 9999 }}
+          >
+            {localeOrder.filter((loc) => routing.locales.includes(loc as any)).map((loc) => (
+              <button
+                key={loc}
+                type="button"
+                role="menuitem"
+                onClick={() => handleChange(loc)}
+                className={`flex w-full items-center gap-x-2 rounded-sm px-3 py-2 text-left text-body-md hover:bg-slate-100 lg:py-2 lg:text-body-sm ${
+                  locale === loc ? "bg-slate-200 hover:bg-slate-200" : ""
+                }`}
+              >
+                <p className="whitespace-nowrap text-[14px] leading-[22px]">{localeLabels[loc]}</p>
+              </button>
+            ))}
+          </div>,
+          document.body
+        )}
     </div>
   );
 }

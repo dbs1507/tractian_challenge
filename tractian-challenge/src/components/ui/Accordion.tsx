@@ -68,7 +68,7 @@ export function Accordion({ items }: AccordionProps) {
             className={`group w-full rounded-xs border bg-transparent p-4 transition hover:border-blue-600 ${isOpen ? "border-blue-600" : "border-slate-300"}`}
           >
             <div className="mb-0 flex w-full items-center justify-between gap-3 transition-all">
-              <h3 className={`text-left font-medium text-body-md transition-all group-hover:text-blue-600 lg:font-semibold ${isOpen ? "text-blue-600" : "text-slate-700"}`}>
+              <h3 className={`text-left font-medium text-body-md transition-all group-hover:text-blue-600 lg:font-medium ${isOpen ? "text-blue-600" : "text-slate-700"}`}>
                 {item.title}
               </h3>
               <figure>
