@@ -31,7 +31,7 @@ export function SimpleColumn({
         {links.map((link) => (
           <Link
             key={link.label}
-            href={link.href}
+            href={link.href as any}
             className="text-sm font-medium text-slate-600 transition-colors hover:text-blue-600"
             onClick={onClose}
           >

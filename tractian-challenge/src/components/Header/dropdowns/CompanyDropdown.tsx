@@ -54,12 +54,12 @@ function CompanyCardLink({
         onClick={onClose}
       >
         {content}
-      </a>
+      </a>    
     );
   }
 
   return (
-    <Link href={href} className={className} onClick={onClose}>
+    <Link href={href as  any} className={className} onClick={onClose}>
       {content}
     </Link>
   );
@@ -108,7 +108,7 @@ function CompanyTextLink({
   }
 
   return (
-    <Link href={href} className={className} onClick={onClose}>
+    <Link href={href as any} className={className} onClick={onClose}>
       {content}
     </Link>
   );
@@ -144,7 +144,7 @@ function MobileCompanyLink({
     );
   }
   return (
-    <Link href={href} className={className} onClick={onClose}>
+    <Link href={href as any} className={className} onClick={onClose}>
       {content}
     </Link>
   );

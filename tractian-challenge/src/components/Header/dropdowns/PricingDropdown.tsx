@@ -33,7 +33,7 @@ export function PricingDropdown({
         {links.map((link) => (
           <Link
             key={link.href}
-            href={link.href}
+            href={link.href as any}
             className="group flex w-full items-center gap-2 py-2"
             onClick={onClose}
           >
@@ -55,7 +55,7 @@ export function PricingDropdown({
           className="flex w-full border-l border-slate-300 pl-4"
         >
           <Link
-            href={link.href}
+            href={link.href as any}
             className="group flex w-full items-center gap-2"
             onClick={onClose}
           >
