@@ -1,7 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { useState, useCallback, useRef, useEffect } from "react";
+import { useState, useCallback } from "react";
 
 export type AccordionItem = {
   id: string;
@@ -38,22 +38,10 @@ function ChevronRight({ isOpen }: { isOpen: boolean }) {
 
 export function Accordion({ items }: AccordionProps) {
   const [openId, setOpenId] = useState<string | null>(null);
-  const contentRefs = useRef<Record<string, HTMLDivElement | null>>({});
-  const [heights, setHeights] = useState<Record<string, number>>({});
 
   const toggle = useCallback((id: string) => {
     setOpenId((prev) => (prev === id ? null : id));
   }, []);
-
-  useEffect(() => {
-    const newHeights: Record<string, number> = {};
-    for (const [id, el] of Object.entries(contentRefs.current)) {
-      if (el) {
-        newHeights[id] = el.scrollHeight;
-      }
-    }
-    setHeights(newHeights);
-  }, [items]);
 
   if (items.length === 0) return null;
 
@@ -63,12 +51,12 @@ export function Accordion({ items }: AccordionProps) {
         const isOpen = openId === item.id;
         const triggerId = `${item.id}-trigger`;
         const panelId = `${item.id}-panel`;
-return (
-    <div
-          key={item.id}
-          role="listitem"
-          className={`rounded-xs border transition hover:border-blue-600 ${isOpen ? "border-blue-600" : "border-slate-300"}`}
-        >
+        return (
+          <div
+            key={item.id}
+            role="listitem"
+            className={`rounded-xs border transition hover:border-blue-600 ${isOpen ? "border-blue-600" : "border-slate-300"}`}
+          >
             <button
               id={triggerId}
               type="button"
@@ -88,19 +76,15 @@ return (
               id={panelId}
               role="region"
               aria-labelledby={triggerId}
-              className="overflow-hidden"
+              className="grid transition-[grid-template-rows] duration-200 ease-in-out"
               style={{
-                maxHeight: isOpen ? `${(heights[item.id] ?? 0) + 16}px` : "0px",
-                transition: "max-height 0.2s ease-in-out",
+                gridTemplateRows: isOpen ? "1fr" : "0fr",
               }}
             >
-              <div
-                ref={(el) => {
-                  contentRefs.current[item.id] = el;
-                }}
-                className="px-4 pb-4 pt-0 text-left text-body-md text-slate-500"
-              >
-                {item.content}
+              <div className="min-h-0 overflow-hidden">
+                <div className="px-4 pb-4 pt-0 text-left text-body-md text-slate-500">
+                  {item.content}
+                </div>
               </div>
             </div>
           </div>
